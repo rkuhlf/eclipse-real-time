@@ -19,7 +19,7 @@ export const Window = ({ windowId }: WindowProps) => {
         const value = (e.target as HTMLSelectElement)?.value as any | null;
         if (value !== null) {
             // Update the current window to have the window that matches the name we clicked on.
-            for (const entry of hotfireWindows[currentHotfireId]) {
+            for (const entry of hotfireWindows[currentHotfireId].windows) {
                 if (entry.name == value) {
                     updateCurrentWindows({
                         [windowId]: entry
@@ -36,7 +36,7 @@ export const Window = ({ windowId }: WindowProps) => {
       <div className="window">
         <div className="dropdown">
           <select value={currentWindows[windowId]?.name} onChange={handleChange}>
-            {Object.values(hotfireWindows[currentHotfireId]).map(option => (
+            {Object.values(hotfireWindows[currentHotfireId].windows).map(option => (
               <option key={option.name} value={option.name}>{option.name}</option>
             ))}
           </select>

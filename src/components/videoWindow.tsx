@@ -6,18 +6,24 @@ import "./videoWindow.css"
 
 interface VideoWindowProps {
     src: string;
+    startTime: number;
 }
 
 interface ContextListenerProps {
     isPlayingUpdated: (isPlaying: boolean) => void;
+    currentWatchtimeUpdated: (newTime: number) => void;
 }
 
-const ContextListener = ({ isPlayingUpdated }: ContextListenerProps ) => {
-    const {isPlaying} = useContext(playbackContext);
+const ContextListener = ({ isPlayingUpdated, currentWatchtimeUpdated }: ContextListenerProps ) => {
+    const { playbackState } = useContext(playbackContext);
 
     useEffect(() => {
-        isPlayingUpdated(isPlaying);
-    }, [isPlaying]);
+        isPlayingUpdated(playbackState.isPlaying);
+    }, [playbackState.isPlaying]);
+
+    useEffect(() => {
+        currentWatchtimeUpdated(playbackState.elapsedTime);
+    }, [playbackState.elapsedTime]);
 
     return <></>
 }
@@ -45,9 +51,18 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     this.translateY = 0;
   }
 
+  setTime(newTime: number) {
+    const video = this.videoRef.current;
+    if (!video) return;
+
+    video.currentTime = this.props.startTime + newTime;
+  }
+
   componentDidMount() {
     const container = this.containerRef.current;
     if (!container) return;
+
+    this.setTime(0);
 
     container.addEventListener('wheel', this.handleWheel);
     container.addEventListener('mousedown', this.handleMouseDown);
@@ -116,7 +131,10 @@ export default class VideoWindow extends Component<VideoWindowProps> {
             } else {
                 this.videoRef.current?.pause();
             }
-        }} />
+        }} currentWatchtimeUpdated={(newWatchtime) => {
+            console.log("Setting time", newWatchtime)
+            this.setTime(newWatchtime);
+        }}/>
       </div>
     );
   }

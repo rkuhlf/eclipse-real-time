@@ -14,45 +14,61 @@ export type WindowInfo = {
     content: JSX.Element
 };
 
+export type HotfireInfo = {
+    duration: number,
+    windows: WindowInfo[]
+}
+
 
 // The first four of each of these will be taken as the default windows.
-export const hotfireWindows = {
-    "Hotfire 0": [
-        {
-            name: "Description",
-            content: <HotfireZeroDescription />
-        },
-        {
-            name: "Thrust",
-            content: <>Thrust</>
-        },
-        {
-            name: "Ground Video",
-            content: <VideoWindow src={hotfire3ground} />,
-        },
-        {
-            name: "Trailer Video",
-            content: <VideoWindow src={hotfire3trailer} />
-        },
-    ],
-    "Hotfire 1": [
-        {
-            name: "Description",
-            content: <HotfireOneDescription />
-        }
-    ],
-    "Hotfire 2": [
-        {
-            name: "Description",
-            content: <HotfireTwoDescription />
-        }
-    ],
-    "Hotfire 3": [
-        {
-            name: "Description",
-            content: <HotfireThreeDescription />
-        }
-    ],
+export const hotfireWindows: Record<string, HotfireInfo> = {
+    "Hotfire 0": {
+        duration: 29,
+        windows: [
+            {
+                name: "Description",
+                content: <HotfireZeroDescription />
+            },
+            {
+                name: "Thrust",
+                content: <>Thrust</>
+            },
+            {
+                name: "Ground Video",
+                // Synced.
+                content: <VideoWindow src={hotfire3ground} startTime={2.43} />,
+            },
+            {
+                name: "Trailer Video",
+                // Synced.
+                content: <VideoWindow src={hotfire3trailer} startTime={0} />
+            },
+        ]
+    },
+    "Hotfire 1": {
+        duration: 15, windows: [
+            {
+                name: "Description",
+                content: <HotfireOneDescription />
+            }
+        ]
+    },
+    "Hotfire 2": {
+        duration: 15, windows: [
+            {
+                name: "Description",
+                content: <HotfireTwoDescription />
+            }
+        ]
+    },
+    "Hotfire 3": {
+        duration: 15, windows: [
+            {
+                name: "Description",
+                content: <HotfireThreeDescription />
+            }
+        ]
+    },
 }
 
 export type hotfireId = keyof typeof hotfireWindows;

@@ -5,9 +5,9 @@ import { CurrentHotfireProvider } from './hotfireContext.tsx'
 import { PlaybackProvider } from './playbackContext.tsx'
 
 render(
-    <PlaybackProvider>
-        <CurrentHotfireProvider>
+    <CurrentHotfireProvider>
+        <PlaybackProvider>
             <App />
-        </CurrentHotfireProvider>
-    </PlaybackProvider>,
+        </PlaybackProvider>
+    </CurrentHotfireProvider>,
     document.getElementById('app') as HTMLElement)
