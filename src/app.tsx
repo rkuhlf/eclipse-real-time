@@ -1,33 +1,35 @@
-import { useState } from 'preact/hooks'
-import preactLogo from './assets/preact.svg'
-import viteLogo from '/vite.svg'
+import { useCallback, useContext } from 'preact/hooks';
 import './app.css'
+import { Window } from './components/window';
+import { currentHotfireContext } from './context';
+import { hotfireId, hotfireWindows } from './data';
 
-export function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const { currentHotfireId, setCurrentHotfire } = useContext(currentHotfireContext);
+
+  const handleChange = useCallback((e: Event) => {
+    const value = (e.target as HTMLSelectElement)?.value as hotfireId | null;
+
+    if (value !== null) {
+      console.log(setCurrentHotfire);
+      setCurrentHotfire(value);
+    }
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
+      <select value={currentHotfireId} onChange={handleChange}>
+        {Object.keys(hotfireWindows).map(option => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
+
+      <div className="grid-container">
+        <Window windowId='window1' />
+        <Window windowId='window2' />
+        <Window windowId='window3' />
+        <Window windowId='window4' />
       </div>
-      <h1>Vite + Preact</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
     </>
-  )
-}
+  );
+};

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "chart.js": "^4.4.2",
     "preact": "^10.13.2"
   },
   "devDependencies": {
