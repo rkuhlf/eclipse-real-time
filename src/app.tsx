@@ -1,8 +1,9 @@
 import { useCallback, useContext } from 'preact/hooks';
 import './app.css'
 import { Window } from './components/window';
-import { currentHotfireContext } from './context';
+import { currentHotfireContext } from './hotfireContext';
 import { hotfireId, hotfireWindows } from './data';
+import PlaybackControls from './components/playbackControls';
 
 export const App = () => {
   const { currentHotfireId, setCurrentHotfire } = useContext(currentHotfireContext);
@@ -30,6 +31,8 @@ export const App = () => {
         <Window windowId='window3' />
         <Window windowId='window4' />
       </div>
+
+      <PlaybackControls />
     </>
   );
 };

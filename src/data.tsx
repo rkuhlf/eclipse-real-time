@@ -6,6 +6,8 @@ import { HotfireOneDescription } from "./components/descriptions/hotfireOneDescr
 import { HotfireTwoDescription } from "./components/descriptions/hotfireTwoDescription"
 import { HotfireThreeDescription } from "./components/descriptions/hotfireThreeDescription"
 import VideoWindow from "./components/videoWindow"
+import hotfire3trailer from "./assets/hotfire3trailer.mp4";
+import hotfire3ground from "./assets/hotfire3ground.mp4";
 
 export type WindowInfo = {
     name: string,
@@ -26,11 +28,11 @@ export const hotfireWindows = {
         },
         {
             name: "Ground Video",
-            content: <VideoWindow src="" />,
+            content: <VideoWindow src={hotfire3ground} />,
         },
         {
             name: "Trailer Video",
-            content: <>Trailer</>
+            content: <VideoWindow src={hotfire3trailer} />
         },
     ],
     "Hotfire 1": [

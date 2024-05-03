@@ -1,6 +1,6 @@
 
 import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
-import { currentHotfireContext, windowId } from '../context';
+import { currentHotfireContext, windowId } from '../hotfireContext';
 import { hotfireWindows } from '../data';
 
 type WindowProps = {

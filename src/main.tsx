@@ -1,9 +1,13 @@
 import { render } from 'preact'
 import { App } from './app.tsx'
 import './index.css'
-import { CurrentHotfireProvider } from './context.tsx'
+import { CurrentHotfireProvider } from './hotfireContext.tsx'
+import { PlaybackProvider } from './playbackContext.tsx'
 
-render(<CurrentHotfireProvider>
-    <App />
-</CurrentHotfireProvider>,
+render(
+    <PlaybackProvider>
+        <CurrentHotfireProvider>
+            <App />
+        </CurrentHotfireProvider>
+    </PlaybackProvider>,
     document.getElementById('app') as HTMLElement)
