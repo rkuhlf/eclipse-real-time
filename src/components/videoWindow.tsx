@@ -61,16 +61,34 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   }
 
   handleWheel = (event: WheelEvent) => {
+    // Zoom centered at the mouse wheel.
     event.preventDefault();
     const container = this.containerRef.current;
     if (!container) return;
 
+    const rect = container.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const centerToMouseX = event.clientX - centerX;
+    const centerToMouseY = event.clientY - centerY;
+
+    this.translateX -= centerToMouseX / this.scale;
+    this.translateY -= centerToMouseY / this.scale;
+
+
     const deltaY = event.deltaY;
     if (deltaY > 0) {
-      this.scale *= 1.1; // Zoom out
+      this.scale *= 1.05; // Zoom out
     } else {
-      this.scale *= 0.9; // Zoom in
+      this.scale *= 0.95; // Zoom in
     }
+
+    this.scale = Math.min(this.scale, 40);
+    this.scale = Math.max(this.scale, 0.1);
+
+    this.translateX += centerToMouseX / this.scale;
+    this.translateY += centerToMouseY / this.scale;
 
     this.updateTransform();
   };
@@ -88,9 +106,16 @@ export default class VideoWindow extends Component<VideoWindowProps> {
 
   handleMouseMove = (event: MouseEvent) => {
     if (!this.isDragging) return;
-    this.translateX = event.clientX - this.startX;
-    this.translateY = event.clientY - this.startY;
+
+    const xDragged = (event.clientX - this.startX) - this.translateX;
+    const yDragged = (event.clientY - this.startY) - this.translateY;
+    this.translateX += xDragged / this.scale;
+    this.translateY += yDragged / this.scale;
+    
     this.updateTransform();
+
+    this.startX = event.clientX - this.translateX;
+    this.startY = event.clientY - this.translateY;
   };
 
   updateTransform = () => {
