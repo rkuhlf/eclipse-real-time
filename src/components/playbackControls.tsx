@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'preact/hooks';
+import { useContext, useEffect, useRef, useState } from 'preact/hooks';
 import { playbackContext } from "../playbackContext";
 import { hotfireWindows } from "../data";
 import { currentHotfireContext } from "../hotfireContext";
@@ -13,6 +13,8 @@ import pause from "../assets/pause.svg";
 const arrowOffset = 1;
 const frameOffset = 0.03;
 
+const elapsedTimeUpdateInterval = 0.03;
+
 function formatTime(time: number): string {
     return time.toFixed(2);
 }
@@ -20,6 +22,8 @@ function formatTime(time: number): string {
 const PlaybackControls = () => {
     const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, setCurrentWatchtime, updateState } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
+    const [intervalId, setIntervalId] = useState<number | null>(null);
+    const sliderRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         const downHandler = (event: KeyboardEvent) => {
@@ -45,6 +49,25 @@ const PlaybackControls = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (playbackState.isPlaying) {
+            if (intervalId) return;
+
+            const id = setInterval(() => {
+                setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
+            }, elapsedTimeUpdateInterval * 1000);
+            setIntervalId(id);
+        } else {
+            if (!intervalId) return;
+            clearInterval(intervalId);
+            setIntervalId(null);
+        }
+    }, [playbackState.isPlaying]);
+
+    useEffect(() => {
+        setSliderPosition(playbackState.elapsedTime);
+    }, [playbackState.elapsedTime]);
+
     const handleSlider = (e: Event) => {
         const value = (e.target as HTMLInputElement)?.value as any | null;
         if (value !== null) {
@@ -60,17 +83,31 @@ const PlaybackControls = () => {
         }
     }
 
+    const setSliderPosition = (newValue: number) => {
+        const slider = sliderRef.current;
+        if (!slider) return;
+
+        slider.value = newValue as any;
+    }
+
+    const getSliderPosition = () => {
+        const slider = sliderRef.current;
+        if (!slider) return 0;
+
+        return parseFloat(slider.value);
+    }
+
     return (
         <div>
             <div class="playback-controls">
                 <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <img src={pause} /> : <img src={play} />}</button>
                 <div>
-                    {formatTime(playbackState.elapsedTime)} / {formatTime(hotfireWindows[currentHotfireId].duration)}
+                    {formatTime(getSliderPosition())} / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
                 <input type="range" id="seek-bar" min={0}
                     max={hotfireWindows[currentHotfireId].duration}
                     step={frameOffset}
-                    value={playbackState.elapsedTime}
+                    ref={sliderRef}
                     onInput={handleSlider}
                 />
                 <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><img src={prevFrame} /></button>

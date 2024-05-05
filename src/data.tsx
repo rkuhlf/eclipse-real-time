@@ -33,16 +33,16 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Ground Video",
                 // Synced
-                content: <VideoWindow src={hotfire0ground} startTime={0} />,
+                content: <VideoWindow key={Math.random()} src={hotfire0ground} startTime={0} />,
             },
             {
                 name: "Trailer Video",
                 // Synced
-                content: <VideoWindow src={hotfire0trailer} startTime={0} />
+                content: <VideoWindow key={Math.random()} src={hotfire0trailer} startTime={0} />
             },
             {
                 name: "Pressure",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0.65} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0.65} />
             },
             {
                 name: "Description",
@@ -55,23 +55,23 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Ground Video",
                 // Synced.
-                content: <VideoWindow src={hotfire2ground} startTime={3.65} />,
+                content: <VideoWindow key={Math.random()} src={hotfire2ground} startTime={3.65} />,
             },
             {
                 name: "Trailer Video",
-                content: <VideoWindow src={hotfire2trailer} startTime={0} />
+                content: <VideoWindow key={Math.random()} src={hotfire2trailer} startTime={0} />
             },
             {
                 name: "Thrust",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={0} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={0} />
             },
             {
                 name: "Pressure",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0} />
             },
             {
                 name: "Temperature",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Chamber (\u00b0C)"]} startTime={0} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Chamber (\u00b0C)"]} startTime={0} />
             },
             {
                 name: "Description",
@@ -84,20 +84,20 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Ground Video",
                 // Synced.
-                content: <VideoWindow src={hotfire3ground} startTime={2.41} />,
+                content: <VideoWindow key={Math.random()} src={hotfire3ground} startTime={2.41} />,
             },
             {
                 name: "Trailer Video",
                 // Synced.
-                content: <VideoWindow src={hotfire3trailer} startTime={0} />
+                content: <VideoWindow key={Math.random()} src={hotfire3trailer} startTime={0} />
             },
             {
                 name: "Thrust",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={1.9} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={1.9} />
             },
             {
                 name: "Pressure",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={1.9} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={1.9} />
             },
             {
                 name: "Description",

@@ -47,6 +47,8 @@ export default class GraphWindow extends Component<GraphWindowProps> {
     }
 
     componentDidUpdate() {
+        this.chartObject?.destroy();
+        this.chartObject = null;
         this.renderChart();
     }
 
@@ -93,7 +95,8 @@ export default class GraphWindow extends Component<GraphWindowProps> {
                 tension: 0.1,
                 pointStyle: false
             });
-        }        
+        }      
+        
 
         if (!this.chartObject) {
             this.chartObject = new Chart(ctx, {

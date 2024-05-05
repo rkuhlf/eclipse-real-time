@@ -12,7 +12,6 @@ export const App = () => {
     const value = (e.target as HTMLSelectElement)?.value as hotfireId | null;
 
     if (value !== null) {
-      console.log(setCurrentHotfire);
       setCurrentHotfire(value);
     }
   }, []);
