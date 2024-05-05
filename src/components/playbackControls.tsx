@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'preact/hooks';
+import { useCallback, useContext, useEffect } from 'preact/hooks';
 import { playbackContext } from "../playbackContext";
 import { hotfireWindows } from "../data";
 import { currentHotfireContext } from "../hotfireContext";
@@ -18,7 +18,7 @@ function formatTime(time: number): string {
 }
 
 const PlaybackControls = () => {
-    const { playbackState, setIsPlaying, offsetCurrentWatchtime, setCurrentWatchtime, updateState } = useContext(playbackContext);
+    const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, setCurrentWatchtime, updateState } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
 
     useEffect(() => {
@@ -30,10 +30,18 @@ const PlaybackControls = () => {
             }
         };
 
+        const upHandler = (event: KeyboardEvent) => {
+            if (event.key === " ") {
+                toggleIsPlaying();
+            }
+        }; 
+
         document.addEventListener('keydown', downHandler);
+        document.addEventListener('keyup', upHandler);
 
         return () => {
             document.removeEventListener('keydown', downHandler);
+        document.removeEventListener('keyup', upHandler);
         };
     }, []);
 
@@ -55,7 +63,7 @@ const PlaybackControls = () => {
     return (
         <div>
             <div class="playback-controls">
-                <button id="play-pause" onClick={() => setIsPlaying(!playbackState.isPlaying)}>{playbackState.isPlaying ? <img src={pause} /> : <img src={play} />}</button>
+                <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <img src={pause} /> : <img src={play} />}</button>
                 <div>
                     {formatTime(playbackState.elapsedTime)} / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>

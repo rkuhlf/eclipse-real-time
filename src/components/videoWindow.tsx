@@ -1,36 +1,11 @@
 import { Component, RefObject, createRef } from "preact";
-import { useContext, useEffect } from "preact/hooks";
-import { playbackContext } from "../playbackContext";
 
 import "./videoWindow.css"
+import { ContextListener } from "./contextListener";
 
 interface VideoWindowProps {
     src: string;
     startTime: number;
-}
-
-interface ContextListenerProps {
-    isPlayingUpdated: (isPlaying: boolean) => void;
-    currentWatchtimeUpdated: (newTime: number) => void;
-    playbackSpeedUpdated: (newSpeed: number) => void;
-}
-
-const ContextListener = ({ isPlayingUpdated, currentWatchtimeUpdated, playbackSpeedUpdated }: ContextListenerProps ) => {
-    const { playbackState } = useContext(playbackContext);
-
-    useEffect(() => {
-        isPlayingUpdated(playbackState.isPlaying);
-    }, [playbackState.isPlaying]);
-
-    useEffect(() => {
-        currentWatchtimeUpdated(playbackState.elapsedTime);
-    }, [playbackState.elapsedTime]);
-
-    useEffect(() => {
-        playbackSpeedUpdated(playbackState.playbackSpeed);
-    }, [playbackState.playbackSpeed]);
-
-    return <></>
 }
   
 // Used a component because GPT did it this way and it was more performant than when it converted it into a function.
@@ -59,7 +34,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   setTime(newTime: number) {
     const video = this.videoRef.current;
     if (!video) return;
-
+    
     video.currentTime = this.props.startTime + newTime;
   }
 
@@ -130,19 +105,19 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     return (
       <div className="video-container" ref={this.containerRef}>
         <video className="video" src={this.props.src} ref={this.videoRef} />
-        <ContextListener isPlayingUpdated={(isPlaying) => {
-            if (isPlaying) {
+        <ContextListener isPlayingUpdated={(newState) => {
+            if (newState.isPlaying) {
                 this.videoRef.current?.play();
             } else {
                 this.videoRef.current?.pause();
             }
-        }} currentWatchtimeUpdated={(newWatchtime) => {
-            this.setTime(newWatchtime);
-        }} playbackSpeedUpdated={(newSpeed) => {
+        }} currentWatchtimeUpdated={(newState) => {
+            this.setTime(newState.elapsedTime);
+        }} playbackSpeedUpdated={(newState) => {
             const video = this.videoRef.current;
             if (!video) return;
                 
-            video.playbackRate = newSpeed;
+            video.playbackRate = newState.playbackSpeed;
         }}
         />
       </div>

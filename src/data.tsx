@@ -71,22 +71,26 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
     "Hotfire 3": {
         duration: 29, windows: [
             {
-                name: "Description",
-                content: <HotfireThreeDescription />
-            },
-            {
-                name: "Thrust",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["LC1 Axial Load (lbf)"]} />
-            },
-            {
                 name: "Ground Video",
                 // Synced.
-                content: <VideoWindow src={hotfire3ground} startTime={2.43} />,
+                content: <VideoWindow src={hotfire3ground} startTime={2.41} />,
             },
             {
                 name: "Trailer Video",
                 // Synced.
                 content: <VideoWindow src={hotfire3trailer} startTime={0} />
+            },
+            {
+                name: "Thrust",
+                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={1.9} />
+            },
+            {
+                name: "Pressure",
+                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Combustion (psi)"]} startTime={1.9} />
+            },
+            {
+                name: "Description",
+                content: <HotfireThreeDescription />
             },
         ]
     },
