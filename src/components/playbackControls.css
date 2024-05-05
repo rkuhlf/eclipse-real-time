@@ -1,0 +1,30 @@
+.playback-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Styling for the buttons */
+.playback-controls button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.playback-controls button:hover {
+    color: #ccc;
+}
+
+/* Styling for the slider */
+.playback-controls input[type="range"] {
+    width: 60%;
+    margin: 0 10px;
+}

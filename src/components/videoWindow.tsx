@@ -12,9 +12,10 @@ interface VideoWindowProps {
 interface ContextListenerProps {
     isPlayingUpdated: (isPlaying: boolean) => void;
     currentWatchtimeUpdated: (newTime: number) => void;
+    playbackSpeedUpdated: (newSpeed: number) => void;
 }
 
-const ContextListener = ({ isPlayingUpdated, currentWatchtimeUpdated }: ContextListenerProps ) => {
+const ContextListener = ({ isPlayingUpdated, currentWatchtimeUpdated, playbackSpeedUpdated }: ContextListenerProps ) => {
     const { playbackState } = useContext(playbackContext);
 
     useEffect(() => {
@@ -24,6 +25,10 @@ const ContextListener = ({ isPlayingUpdated, currentWatchtimeUpdated }: ContextL
     useEffect(() => {
         currentWatchtimeUpdated(playbackState.elapsedTime);
     }, [playbackState.elapsedTime]);
+
+    useEffect(() => {
+        playbackSpeedUpdated(playbackState.playbackSpeed);
+    }, [playbackState.playbackSpeed]);
 
     return <></>
 }
@@ -132,9 +137,14 @@ export default class VideoWindow extends Component<VideoWindowProps> {
                 this.videoRef.current?.pause();
             }
         }} currentWatchtimeUpdated={(newWatchtime) => {
-            console.log("Setting time", newWatchtime)
             this.setTime(newWatchtime);
-        }}/>
+        }} playbackSpeedUpdated={(newSpeed) => {
+            const video = this.videoRef.current;
+            if (!video) return;
+                
+            video.playbackRate = newSpeed;
+        }}
+        />
       </div>
     );
   }
