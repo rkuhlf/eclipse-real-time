@@ -24,6 +24,7 @@ const PlaybackControls = () => {
     const { currentHotfireId } = useContext(currentHotfireContext);
     const [intervalId, setIntervalId] = useState<number | null>(null);
     const sliderRef = useRef<HTMLInputElement | null>(null);
+    const timeRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         const downHandler = (event: KeyboardEvent) => {
@@ -88,13 +89,10 @@ const PlaybackControls = () => {
         if (!slider) return;
 
         slider.value = newValue as any;
-    }
+        const timeSpan = timeRef.current;
+        if (!timeSpan) return;
 
-    const getSliderPosition = () => {
-        const slider = sliderRef.current;
-        if (!slider) return 0;
-
-        return parseFloat(slider.value);
+        timeSpan.textContent = formatTime(newValue);
     }
 
     return (
@@ -102,7 +100,7 @@ const PlaybackControls = () => {
             <div class="playback-controls">
                 <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <img src={pause} /> : <img src={play} />}</button>
                 <div>
-                    {formatTime(getSliderPosition())} / {formatTime(hotfireWindows[currentHotfireId].duration)}
+                    <span ref={timeRef}></span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
                 <input type="range" id="seek-bar" min={0}
                     max={hotfireWindows[currentHotfireId].duration}

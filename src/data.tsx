@@ -42,7 +42,7 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             },
             {
                 name: "Pressure",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0.65} />
+                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={-0.55} />
             },
             {
                 name: "Description",

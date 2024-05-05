@@ -48,6 +48,8 @@ export const CurrentHotfireProvider = ({ children }: { children: ComponentChildr
         }));
       }, [setCurrentWindows]);
 
+    
+
     return (
         <currentHotfireContext.Provider value={{ currentHotfireId, setCurrentHotfire, currentWindows, updateCurrentWindows }}>
             {children}

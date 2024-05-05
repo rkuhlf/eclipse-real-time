@@ -1,5 +1,5 @@
 import { createContext, ComponentChildren } from 'preact';
-import { useCallback, useContext, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
 import { hotfireWindows } from './data';
 import { currentHotfireContext } from './hotfireContext';
 
@@ -14,13 +14,15 @@ interface PlaybackContextType {
 export type windowId = "window1" | "window2" | "window3" | "window4";
 
 
+const defaultState = {
+    elapsedTime: 0,
+    isPlaying: false,
+    startWatchtime: 0,
+    playbackSpeed: 1,
+};
+
 export const playbackContext = createContext<PlaybackContextType>({
-    playbackState: {
-        elapsedTime: 0,
-        isPlaying: false,
-        startWatchtime: 0,
-        playbackSpeed: 1,
-    },
+    playbackState: {...defaultState},
     setCurrentWatchtime: () => { },
     offsetCurrentWatchtime: () => { },
     updateState: () => { },
@@ -35,12 +37,7 @@ export type PlaybackState = {
 }
 
 export const PlaybackProvider = ({ children }: { children: ComponentChildren }) => {
-    const [state, setState] = useState<PlaybackState>({
-        isPlaying: false,
-        startWatchtime: 0,
-        elapsedTime: 0,
-        playbackSpeed: 1
-    });
+    const [state, setState] = useState<PlaybackState>({...defaultState});
 
     const { currentHotfireId } = useContext(currentHotfireContext);
 
@@ -59,6 +56,10 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
             }
         });
     }, [state, setState]);
+
+    useEffect(() => {
+        setState({...defaultState})
+    }, [currentHotfireId])
 
     const setCurrentWatchtime = useCallback((newTime: number) => {
         setState(prevState => {

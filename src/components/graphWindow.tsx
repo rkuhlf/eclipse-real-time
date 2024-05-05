@@ -38,6 +38,7 @@ export default class GraphWindow extends Component<GraphWindowProps> {
     }
 
     async componentDidMount() {
+        console.log("Updating");
         const { dataPath } = this.props;
         /* @vite-ignore */
         this.data = (await import(dataPath)).default;
