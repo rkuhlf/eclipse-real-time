@@ -108,15 +108,38 @@ export default class GraphWindow extends Component<GraphWindowProps> {
                 },
                 options: {
                     scales: {
-                        x: {
-                            type: 'linear',
-                            position: 'bottom'
+                      x: {
+                        grid: {
+                          color: 'rgba(255, 255, 255, 0.25)' // Adjust for dark mode
+                        },
+                        ticks: {
+                          color: 'rgba(255, 255, 255, 0.75)' // Adjust for dark mode
+                        },
+                        type: 'linear',
+                        position: 'bottom'
+                      },
+                      y: {
+                        grid: {
+                          color: 'rgba(255, 255, 255, 0.25)' // Adjust for dark mode
+                        },
+                        ticks: {
+                          color: 'rgba(255, 255, 255, 0.75)' // Adjust for dark mode
                         }
+                      }
                     },
-                    maintainAspectRatio: false,
-                    /* @ts-ignore */
-                    test: this.elapsedTime
-                },
+                    plugins: {
+                      tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Adjust for dark mode
+                        bodyColor: 'white', // Adjust for dark mode
+                        borderColor: 'rgba(255, 255, 255, 0.5)' // Adjust for dark mode
+                      },
+                      legend: {
+                        labels: {
+                          color: 'rgba(255, 255, 255, 0.75)' // Adjust legend text color for dark mode
+                        },
+                      }
+                    }
+                  },
                 plugins: [verticalLinePlugin]
             });
         } else {

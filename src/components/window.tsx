@@ -43,6 +43,8 @@ export const Window = ({ windowId }: WindowProps) => {
       </div>
 
       {currentWindows[windowId]?.content}
+      <div className="nav-shadow"></div>
+      <div className="shadow"></div>
     </div>
   );
 };

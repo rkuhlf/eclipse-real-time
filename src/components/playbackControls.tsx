@@ -8,6 +8,7 @@ import nextFrame from "../assets/nextframe.svg";
 import prevFrame from "../assets/prevframe.svg";
 import play from "../assets/play.svg";
 import pause from "../assets/pause.svg";
+import { ReactSVG } from 'react-svg';
 
 
 const arrowOffset = 1;
@@ -98,7 +99,7 @@ const PlaybackControls = () => {
     return (
         <div>
             <div class="playback-controls">
-                <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <img src={pause} /> : <img src={play} />}</button>
+                <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <ReactSVG src={pause} /> : <ReactSVG src={play}/>}</button>
                 <div>
                     <span ref={timeRef}></span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
@@ -108,8 +109,8 @@ const PlaybackControls = () => {
                     ref={sliderRef}
                     onInput={handleSlider}
                 />
-                <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><img src={prevFrame} /></button>
-                <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><img src={nextFrame} /></button>
+                <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><ReactSVG src={prevFrame} /></button>
+                <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><ReactSVG src={nextFrame} /></button>
                 <select id="speed" onChange={handleSpeed}>
                     <option value="0.25">0.25x</option>
                     <option value="0.5">0.5x</option>
