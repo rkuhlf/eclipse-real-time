@@ -1,13 +1,5 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  grid-template-rows: repeat(2, 1fr); /* Two rows */
-  gap: 10px; /* Gap between windows */
-}
-
-.window {
-  border: 1px solid #ccc;
-  padding: 10px;
-  min-width: 200px;
-  min-height: 200px;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }

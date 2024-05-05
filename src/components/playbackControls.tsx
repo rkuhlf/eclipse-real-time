@@ -1,9 +1,13 @@
-import "./playbackControls.css";
-
 import { useContext, useEffect } from 'preact/hooks';
 import { playbackContext } from "../playbackContext";
 import { hotfireWindows } from "../data";
 import { currentHotfireContext } from "../hotfireContext";
+
+import "./playbackControls.css";
+import nextFrame from "../assets/nextframe.svg";
+import prevFrame from "../assets/prevframe.svg";
+import play from "../assets/play.svg";
+import pause from "../assets/pause.svg";
 
 
 const arrowOffset = 1;
@@ -50,8 +54,8 @@ const PlaybackControls = () => {
 
     return (
         <div>
-            <div class="video-controls">
-                <button id="play-pause" onClick={() => setIsPlaying(!playbackState.isPlaying)}>{playbackState.isPlaying ? "Pause" : "Play"}</button>
+            <div class="playback-controls">
+                <button id="play-pause" onClick={() => setIsPlaying(!playbackState.isPlaying)}>{playbackState.isPlaying ? <img src={pause} /> : <img src={play} />}</button>
                 <div>
                     {formatTime(playbackState.elapsedTime)} / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
@@ -61,8 +65,8 @@ const PlaybackControls = () => {
                     value={playbackState.elapsedTime}
                     onInput={handleSlider}
                 />
-                <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}>&lt;</button>
-                <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}>&gt;</button>
+                <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><img src={prevFrame} /></button>
+                <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><img src={nextFrame} /></button>
                 <select id="speed" onChange={handleSpeed}>
                     <option value="0.25">0.25x</option>
                     <option value="0.5">0.5x</option>

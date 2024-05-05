@@ -19,11 +19,13 @@ export const App = () => {
 
   return (
     <>
-      <select value={currentHotfireId} onChange={handleChange}>
-        {Object.keys(hotfireWindows).map(option => (
-          <option key={option} value={option}>{option}</option>
-        ))}
-      </select>
+      <div className="nav">
+        <select value={currentHotfireId} onChange={handleChange}>
+          {Object.keys(hotfireWindows).map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
 
       <div className="grid-container">
         <Window windowId='window1' />
