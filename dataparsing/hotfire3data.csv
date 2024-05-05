@@ -1,4 +1,4 @@
-Time (sec),Time Since Ignition (sec),LC1 Axial Load (lbf),PT1 Combustion Pressure (psi),PT2 Feedline Pressure (psi),PT3 Injector Pressure (psi),PT4 Ox-Tank Pressure (psi)
+Time (sec),Time Since Ignition (sec),LC1 Axial Load (lbf),PT1 Combustion Pressure (psi),PT2 Feedline Pressure (psi),PT3 Injector Pressure (psi),PT4 Ox Tank Pressure (psi)
 7910,0,-71.11742,0.38349,741.62353,745.90545,743.56898
 7910.00333,0.00333,-71.11742,0.38349,741.95807,742.39269,743.40171
 7910.00667,0.00667,-67.21442,1.54216,743.12904,743.73086,743.90352

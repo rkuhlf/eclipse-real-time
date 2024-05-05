@@ -6,7 +6,6 @@ import { HotfireTwoDescription } from "./components/descriptions/hotfireTwoDescr
 import { HotfireThreeDescription } from "./components/descriptions/hotfireThreeDescription"
 import VideoWindow from "./components/videoWindow"
 
-import hotfire3Data from "../dataparsing/parsedhotfire3.json";
 import hotfire0trailer from "./assets/hotfire0trailer.mp4";
 import hotfire0ground from "./assets/hotfire0ground.mp4";
 import hotfire2trailer from "./assets/hotfire2trailer.mp4";
@@ -32,14 +31,6 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
         duration: 37,
         windows: [
             {
-                name: "Description",
-                content: <HotfireZeroDescription />
-            },
-            {
-                name: "Thrust",
-                content: <>Thrust</>
-            },
-            {
                 name: "Ground Video",
                 // Synced
                 content: <VideoWindow src={hotfire0ground} startTime={0} />,
@@ -49,14 +40,18 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
                 // Synced
                 content: <VideoWindow src={hotfire0trailer} startTime={0} />
             },
+            {
+                name: "Pressure",
+                content: <GraphWindow dataPath={"../assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0.65} />
+            },
+            {
+                name: "Description",
+                content: <HotfireZeroDescription />
+            },
         ]
     },
     "Hotfire 2": {
         duration: 40, windows: [
-            {
-                name: "Description",
-                content: <HotfireTwoDescription />
-            },
             {
                 name: "Ground Video",
                 // Synced.
@@ -65,6 +60,22 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Trailer Video",
                 content: <VideoWindow src={hotfire2trailer} startTime={0} />
+            },
+            {
+                name: "Thrust",
+                content: <GraphWindow dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={0} />
+            },
+            {
+                name: "Pressure",
+                content: <GraphWindow dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0} />
+            },
+            {
+                name: "Temperature",
+                content: <GraphWindow dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Chamber (\u00b0C)"]} startTime={0} />
+            },
+            {
+                name: "Description",
+                content: <HotfireTwoDescription />
             },
         ]
     },
@@ -86,7 +97,7 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             },
             {
                 name: "Pressure",
-                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Combustion (psi)"]} startTime={1.9} />
+                content: <GraphWindow dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={1.9} />
             },
             {
                 name: "Description",
