@@ -16,7 +16,7 @@ import PlaybackBar from './playbackBar';
 const arrowOffset = 1;
 const frameOffset = 0.03;
 
-const elapsedTimeUpdateInterval = 0.03;
+const elapsedTimeUpdateInterval = 0.06;
 
 function formatTime(time: number): string {
     return time.toFixed(2);
@@ -25,9 +25,11 @@ function formatTime(time: number): string {
 const PlaybackControls = () => {
     const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, updateState } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
+    const [intervalId, setIntervalId] = useState<number | null>(null);
     const timeRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
+        setTime(playbackState.elapsedTime);
         const downHandler = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
                 offsetCurrentWatchtime(-arrowOffset);
@@ -55,6 +57,25 @@ const PlaybackControls = () => {
         updateState({ playbackSpeed: parseFloat(value) });
     }
 
+    useEffect(() => {
+        if (playbackState.isPlaying) {
+            if (intervalId) return;
+
+            const id = setInterval(() => {
+                setTime(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
+            }, elapsedTimeUpdateInterval * 1000);
+            setIntervalId(id);
+        } else {
+            if (!intervalId) return;
+            clearInterval(intervalId);
+            setIntervalId(null);
+        }
+    }, [playbackState.isPlaying]);
+
+    useEffect(() => {
+        setTime(playbackState.elapsedTime);
+    }, [playbackState.elapsedTime]);
+
     const setTime = (newValue: number) => {
         const timeSpan = timeRef.current;
         if (!timeSpan) return;
@@ -67,7 +88,7 @@ const PlaybackControls = () => {
             <PlaybackBar min={0} max={hotfireWindows[currentHotfireId].duration} step={frameOffset} />
             <div className="buttons">
                 <div>
-                    <span ref={timeRef}>0.00</span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
+                    <span ref={timeRef}></span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
                 <div className="playback-buttons">
                     <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><ReactSVG src={prevFrame} /></button>

@@ -12,24 +12,30 @@ interface SliderProps {
 
 const elapsedTimeUpdateInterval = 0.03;
 const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
-    const [value, setValue] = useState(2);
     const sliderRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef(false);
 
     const [intervalId, setIntervalId] = useState<number | null>(null);
 
     const { playbackState, setCurrentWatchtime } = useContext(playbackContext);
 
+    useEffect(() => {
+        setSliderPosition(playbackState.elapsedTime);
+    });
+
 
     useEffect(() => {
         const handleMouseMove = (event: MouseEvent) => {
-            if (isDraggingRef.current && sliderRef.current) {
-                const rect = sliderRef.current.getBoundingClientRect();
+            event.preventDefault();
+            if (isDraggingRef.current && containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
                 const offsetX = event.clientX - rect.left;
-                const percentage = (offsetX / rect.width) * 100;
-                const newValue = min + (max - min) * (percentage / 100);
+                const fraction = offsetX / rect.width;
+                console.log(event.clientX, rect.left, rect.width, fraction);
+                const newValue = min + (max - min) * (fraction);
                 const roundedValue = Math.round(newValue / step) * step;
-                setValue(roundedValue);
+                setSliderPosition(roundedValue);
                 setCurrentWatchtime(roundedValue);
             }
         };
@@ -67,28 +73,26 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
     }, [playbackState.isPlaying]);
 
     useEffect(() => {
-        setSliderPosition(playbackState.elapsedTime);
+        // If we're dragging then we're the reason for this change, and we should just ignore it.
+        if (!isDraggingRef.current) {
+            setSliderPosition(playbackState.elapsedTime);
+        }
     }, [playbackState.elapsedTime]);
 
     const setSliderPosition = (newValue: number) => {
-        console.log("Tryring to set slider position")
-        // const slider = sliderRef.current;
-        // if (!slider) return;
+        const slider = sliderRef.current;
+        if (!slider) return;
 
-        // slider.value = newValue as any;
+        slider.style.width = `${((newValue - min) / (max - min)) * 100}%`;
     }
 
+    // TODO: A hover element like youtube has.
     return (
-        <div className="slider-hover">
-            <div className="slider" ref={sliderRef}>
+        <div className="slider-hover" onMouseDown={handleMouseDown} ref={containerRef}>
+            <div className="slider">
                 <div
                     className="track"
-                    style={{ width: `${((value - min) / (max - min)) * 100}%` }}
-                />
-                <div
-                    className="thumb"
-                    style={{ left: `${((value - min) / (max - min)) * 100}%` }}
-                    onMouseDown={handleMouseDown}
+                    ref={sliderRef}
                 />
             </div>
         </div>
