@@ -1,5 +1,11 @@
 .playback-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+}
+
+.buttons {
     background-color: var(--color-light);
     height: 6vh;
     box-sizing: border-box;
@@ -15,7 +21,7 @@
 }
 
 /* Styling for the buttons */
-.playback-controls button {
+.buttons button {
     background-color: transparent;
     border: none;
     color: white;
@@ -23,29 +29,40 @@
     outline: none;
     fill: white;
 
-    filter: drop-shadow( 0px 0px 2px rgba(0, 0, 0, .3))
+    filter: drop-shadow( 0px 0px 4px rgba(0, 0, 0, 1));
 }
 
-.playback-controls button:hover {
+.buttons button:hover {
     color: white;
     filter: drop-shadow( 0px 0px 2px rgba(255, 255, 255, 0.1))
 }
 
 /* Styling for the slider */
-.playback-controls input[type="range"] {
+.buttons input[type="range"] {
     width: 60%;
     margin: 0 10px;
 }
 
-.playback-controls img {
+.buttons img {
     fill: white;
     color: white;
 }
 
 #prev-frame, #next-frame {
     fill: white;
+    scale: 1.75;
 }
 
 #play-pause {
-    scale: 1.25;
+    scale: 2.25;
+}
+
+
+.playback-buttons {
+    display: flex;
+    flex-direction: row;
+
+    gap: 15px;
+
+    margin-top: 6px;
 }

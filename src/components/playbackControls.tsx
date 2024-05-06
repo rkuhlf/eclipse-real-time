@@ -10,6 +10,7 @@ import play from "../assets/play.svg";
 import pause from "../assets/pause.svg";
 import { ReactSVG } from 'react-svg';
 import Select from './select';
+import PlaybackBar from './playbackBar';
 
 
 const arrowOffset = 1;
@@ -22,10 +23,8 @@ function formatTime(time: number): string {
 }
 
 const PlaybackControls = () => {
-    const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, setCurrentWatchtime, updateState } = useContext(playbackContext);
+    const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, updateState } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
-    const [intervalId, setIntervalId] = useState<number | null>(null);
-    const sliderRef = useRef<HTMLInputElement | null>(null);
     const timeRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
@@ -41,52 +40,22 @@ const PlaybackControls = () => {
             if (event.key === " ") {
                 toggleIsPlaying();
             }
-        }; 
+        };
 
         document.addEventListener('keydown', downHandler);
         document.addEventListener('keyup', upHandler);
 
         return () => {
             document.removeEventListener('keydown', downHandler);
-        document.removeEventListener('keyup', upHandler);
+            document.removeEventListener('keyup', upHandler);
         };
     }, []);
 
-    useEffect(() => {
-        if (playbackState.isPlaying) {
-            if (intervalId) return;
-
-            const id = setInterval(() => {
-                setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
-            }, elapsedTimeUpdateInterval * 1000);
-            setIntervalId(id);
-        } else {
-            if (!intervalId) return;
-            clearInterval(intervalId);
-            setIntervalId(null);
-        }
-    }, [playbackState.isPlaying]);
-
-    useEffect(() => {
-        setSliderPosition(playbackState.elapsedTime);
-    }, [playbackState.elapsedTime]);
-
-    const handleSlider = (e: Event) => {
-        const value = (e.target as HTMLInputElement)?.value as any | null;
-        if (value !== null) {
-            setCurrentWatchtime(value);
-        }
-    }
-
     const handleSpeed = (value: string) => {
-        updateState({playbackSpeed: parseFloat(value)});
+        updateState({ playbackSpeed: parseFloat(value) });
     }
 
-    const setSliderPosition = (newValue: number) => {
-        const slider = sliderRef.current;
-        if (!slider) return;
-
-        slider.value = newValue as any;
+    const setTime = (newValue: number) => {
         const timeSpan = timeRef.current;
         if (!timeSpan) return;
 
@@ -94,20 +63,17 @@ const PlaybackControls = () => {
     }
 
     return (
-        <div>
-            <div class="playback-controls">
-                <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <ReactSVG src={pause} /> : <ReactSVG src={play}/>}</button>
+        <div class="playback-controls">
+            <PlaybackBar min={0} max={hotfireWindows[currentHotfireId].duration} step={frameOffset} />
+            <div className="buttons">
                 <div>
-                    <span ref={timeRef}></span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
+                    <span ref={timeRef}>0.00</span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
-                <input type="range" id="seek-bar" min={0}
-                    max={hotfireWindows[currentHotfireId].duration}
-                    step={frameOffset}
-                    ref={sliderRef}
-                    onInput={handleSlider}
-                />
-                <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><ReactSVG src={prevFrame} /></button>
-                <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><ReactSVG src={nextFrame} /></button>
+                <div className="playback-buttons">
+                    <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><ReactSVG src={prevFrame} /></button>
+                    <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <ReactSVG src={pause} /> : <ReactSVG src={play} />}</button>
+                    <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><ReactSVG src={nextFrame} /></button>
+                </div>
                 <Select defaultValue='1' options={[
                     {
                         label: ".2x",
@@ -122,7 +88,7 @@ const PlaybackControls = () => {
                         label: "2x",
                         value: "2"
                     }
-                ]} onChange={handleSpeed}/>
+                ]} onChange={handleSpeed} />
             </div>
         </div>
     );
