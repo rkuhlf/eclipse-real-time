@@ -4,26 +4,24 @@ import { Window } from './components/window';
 import { currentHotfireContext } from './hotfireContext';
 import { hotfireId, hotfireWindows } from './data';
 import PlaybackControls from './components/playbackControls';
+import { ReactSVG } from 'react-svg';
+
+import dropdown from "./assets/dropdown.svg";
+import Select from './components/select';
 
 export const App = () => {
   const { currentHotfireId, setCurrentHotfire } = useContext(currentHotfireContext);
 
-  const handleChange = useCallback((e: Event) => {
-    const value = (e.target as HTMLSelectElement)?.value as hotfireId | null;
-
-    if (value !== null) {
-      setCurrentHotfire(value);
-    }
+  const handleChange = useCallback((newValue: string) => {
+    setCurrentHotfire(newValue);
   }, []);
 
   return (
     <>
       <div className="nav">
-        <select value={currentHotfireId} onChange={handleChange}>
-          {Object.keys(hotfireWindows).map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </select>
+        <div className="select-title">
+          <Select defaultValue={currentHotfireId} options={(Object.keys(hotfireWindows).map(key => ({ label: key, value: key})))} onChange={handleChange} />
+        </div>
       </div>
 
       <div className="grid-container">

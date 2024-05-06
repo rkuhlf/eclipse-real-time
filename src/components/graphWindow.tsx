@@ -138,9 +138,10 @@ export default class GraphWindow extends Component<GraphWindowProps> {
                           color: 'rgba(255, 255, 255, 0.75)' // Adjust legend text color for dark mode
                         },
                       }
-                    }
+                    },
+                    maintainAspectRatio: false
                   },
-                plugins: [verticalLinePlugin]
+                plugins: [verticalLinePlugin],
             });
         } else {
             this.chartObject.update()

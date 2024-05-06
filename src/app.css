@@ -1,26 +1,28 @@
-.nav {
-  height: 6vh;
-  width: 100%;
-  position: absolute;
-  background-color: rgb(43 49 65);
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}
-
-
 body {
   height: 90vh;
   overflow: hidden;
   margin: 0;
   padding: 0;
-  background-color: rgb(36 41 51);
+  background-color: var(--color-dark);
   color: white;
+  --color-light: rgb(43 49 65);
+  --color-dark: rgb(36 41 51);
 }
 
+.nav {
+  height: 6vh;
+  width: 100%;
+  position: absolute;
+  background-color: var(--color-light);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(2, 50vw); /* Two columns */
-  grid-template-rows: repeat(2, 44vh); /* Two rows */
+  grid-template-columns: repeat(2, 50vw);
+  /* Two columns */
+  grid-template-rows: repeat(2, 44vh);
+  /* Two rows */
   height: 100%;
   gap: 3px;
   padding-top: 6vh;
@@ -44,7 +46,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  box-shadow: inset 0px 0px 10px 0 rgba(0,0,0,0.3);
+  box-shadow: inset 0px 0px 10px 0 rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
 
@@ -55,7 +57,7 @@ body {
   top: 0;
   left: 0;
   --clip-size: 10px;
-  --nav-shadow: inset 0px 0px 10px 0 rgba(0,0,0,0.5);
+  --nav-shadow: inset 0px 0px 10px 0 rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
 
@@ -81,13 +83,50 @@ body {
 
 .window .dropdown {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
 
   z-index: 10;
+  display: none;
+}
+
+.window:hover .dropdown {
+  display: block;
 }
 
 .graph {
   width: 100%;
   height: 100%;
+  padding: 5px;
+}
+
+
+.select-title {
+  font-weight: bold;
+}
+
+.select-title select {
+  font-size: 5vh;
+  padding: 0.5vh !important;
+  padding-top: 0.5vh  !important;
+  padding-right: 0.9em !important;
+  padding-left: 10px !important;
+  background-color: transparent !important;
+}
+
+.select-title .dropdown-arrow {
+  display: block;
+  fill: white;
+  color: white;
+  pointer-events: none;
+}
+
+.select-title .dropdown-arrow svg {
+  padding-top: 4px;
+  scale: 1.5;
+}
+
+.hover-trigger {
+  margin: 0 !important;
+  filter: drop-shadow(0px 0px 2px rgb(0, 0,0 ,0.5));
 }

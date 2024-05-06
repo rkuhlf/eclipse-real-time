@@ -1,0 +1,44 @@
+.select-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.select-container select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    color: white;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: inline;
+    padding: 5px;
+    padding-right: 1.5em;
+    background-color: var(--color-light);
+    border-radius: 5px;
+}
+
+.dropdown-arrow {
+    display: inline;
+    fill: white;
+    color: white;
+    margin-left: -1.4em;
+    pointer-events: none;
+}
+
+.dropdown-arrow svg {
+    padding-top: 4px;
+}
+
+.dropdown-arrow div {
+    display: inline;
+}
+
+.select-container option {
+    background-color: var(--color-light);
+    outline: none;
+    border: none;
+}

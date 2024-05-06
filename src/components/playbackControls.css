@@ -1,6 +1,6 @@
 .playback-controls {
     width: 100%;
-    background-color: rgb(43 49 65);
+    background-color: var(--color-light);
     height: 6vh;
     box-sizing: border-box;
     display: flex;

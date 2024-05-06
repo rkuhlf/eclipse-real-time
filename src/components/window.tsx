@@ -1,7 +1,11 @@
 
-import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
+import { useCallback, useContext, useState } from 'preact/hooks';
 import { currentHotfireContext, windowId } from '../hotfireContext';
 import { hotfireWindows } from '../data';
+import { ReactSVG } from 'react-svg';
+import dropdown from "../assets/dropdown.svg";
+import Select from './select';
+
 
 type WindowProps = {
   windowId: windowId;
@@ -9,14 +13,14 @@ type WindowProps = {
 
 export const Window = ({ windowId }: WindowProps) => {
   const { currentWindows, currentHotfireId, updateCurrentWindows } = useContext(currentHotfireContext);
+  const [isShowingDropdown, setIsShowingDropdown] = useState(false);
 
   if (currentHotfireId == null) {
     return <></>
   }
 
 
-  const handleChange = useCallback((e: Event) => {
-    const value = (e.target as HTMLSelectElement)?.value as any | null;
+  const handleChange = useCallback((value: string) => {
     if (value !== null) {
       // Update the current window to have the window that matches the name we clicked on.
       for (const entry of hotfireWindows[currentHotfireId].windows) {
@@ -34,12 +38,16 @@ export const Window = ({ windowId }: WindowProps) => {
 
   return (
     <div className="window">
-      <div className="dropdown">
-        <select value={currentWindows[windowId]?.name} onChange={handleChange}>
-          {Object.values(hotfireWindows[currentHotfireId].windows).map(option => (
-            <option key={option.name} value={option.name}>{option.name}</option>
-          ))}
-        </select>
+      <div className="dropdown" onMouseEnter={() => setIsShowingDropdown(true)} onMouseLeave={() => setIsShowingDropdown(false)}>
+        {
+          isShowingDropdown ? <Select defaultValue={currentWindows[windowId]?.name || ""} onChange={handleChange} options={Object.values(hotfireWindows[currentHotfireId].windows).map(option => ({
+            label: option.name,
+            value: option.name
+          }
+          ))} /> : <div className="dropdown-arrow hover-trigger">
+            <ReactSVG src={dropdown} />
+          </div>
+        }
       </div>
 
       {currentWindows[windowId]?.content}

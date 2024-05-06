@@ -9,6 +9,7 @@ import prevFrame from "../assets/prevframe.svg";
 import play from "../assets/play.svg";
 import pause from "../assets/pause.svg";
 import { ReactSVG } from 'react-svg';
+import Select from './select';
 
 
 const arrowOffset = 1;
@@ -77,12 +78,8 @@ const PlaybackControls = () => {
         }
     }
 
-    const handleSpeed = (e: Event) => {
-        const value = (e.target as HTMLInputElement)?.value as any | null;
-
-        if (value !== null) {
-            updateState({playbackSpeed: value});
-        }
+    const handleSpeed = (value: string) => {
+        updateState({playbackSpeed: parseFloat(value)});
     }
 
     const setSliderPosition = (newValue: number) => {
@@ -111,12 +108,21 @@ const PlaybackControls = () => {
                 />
                 <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><ReactSVG src={prevFrame} /></button>
                 <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><ReactSVG src={nextFrame} /></button>
-                <select id="speed" onChange={handleSpeed}>
-                    <option value="0.25">0.25x</option>
-                    <option value="0.5">0.5x</option>
-                    <option value="1" selected>1x</option>
-                    <option value="2">2x</option>
-                </select>
+                <Select defaultValue='1' options={[
+                    {
+                        label: ".2x",
+                        value: ".2"
+                    }, {
+                        label: ".5x",
+                        value: ".5"
+                    }, {
+                        label: "1x",
+                        value: "1"
+                    }, {
+                        label: "2x",
+                        value: "2"
+                    }
+                ]} onChange={handleSpeed}/>
             </div>
         </div>
     );
