@@ -2,11 +2,8 @@ import { useCallback, useContext } from 'preact/hooks';
 import './app.css'
 import { Window } from './components/window';
 import { currentHotfireContext } from './hotfireContext';
-import { hotfireId, hotfireWindows } from './data';
+import { hotfireWindows } from './data';
 import PlaybackControls from './components/playbackControls';
-import { ReactSVG } from 'react-svg';
-
-import dropdown from "./assets/dropdown.svg";
 import Select from './components/select';
 
 export const App = () => {

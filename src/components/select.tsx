@@ -1,7 +1,6 @@
 import { useState } from 'preact/hooks';
-import './select.css'; // Import CSS for styling
-import { ReactSVG } from 'react-svg';
-import dropdown from "../assets/dropdown.svg";
+import './select.css';
+import DropdownSVG from './icons/dropdown';
 
 
 interface Option {
@@ -38,7 +37,7 @@ const Select = ({ options, defaultValue, onChange }: SelectProps) => {
         ))}
       </select>
       <div className="dropdown-arrow">
-        <ReactSVG src={dropdown} />
+        <DropdownSVG />
       </div>
     </div>
   );

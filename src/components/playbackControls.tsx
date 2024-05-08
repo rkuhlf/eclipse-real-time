@@ -4,13 +4,12 @@ import { hotfireWindows } from "../data";
 import { currentHotfireContext } from "../hotfireContext";
 
 import "./playbackControls.css";
-import nextFrame from "../assets/nextframe.svg";
-import prevFrame from "../assets/prevframe.svg";
-import play from "../assets/play.svg";
-import pause from "../assets/pause.svg";
-import { ReactSVG } from 'react-svg';
 import Select from './select';
 import PlaybackBar from './playbackBar';
+import PrevFrameSvg from './icons/prevframe';
+import PauseSvg from './icons/pause';
+import PlaySvg from './icons/play';
+import NextFrameSVG from './icons/nextframe';
 
 
 const arrowOffset = 1;
@@ -91,9 +90,9 @@ const PlaybackControls = () => {
                     <span ref={timeRef}></span> / {formatTime(hotfireWindows[currentHotfireId].duration)}
                 </div>
                 <div className="playback-buttons">
-                    <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><ReactSVG src={prevFrame} /></button>
-                    <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <ReactSVG src={pause} /> : <ReactSVG src={play} />}</button>
-                    <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><ReactSVG src={nextFrame} /></button>
+                    <button id="prev-frame" onClick={() => offsetCurrentWatchtime(-frameOffset)}><PrevFrameSvg /></button>
+                    <button id="play-pause" onClick={toggleIsPlaying}>{playbackState.isPlaying ? <PauseSvg /> : <PlaySvg />}</button>
+                    <button id="next-frame" onClick={() => offsetCurrentWatchtime(frameOffset)}><NextFrameSVG /></button>
                 </div>
                 <Select defaultValue='1' options={[
                     {

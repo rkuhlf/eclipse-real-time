@@ -2,9 +2,8 @@
 import { useCallback, useContext, useState } from 'preact/hooks';
 import { currentHotfireContext, windowId } from '../hotfireContext';
 import { hotfireWindows } from '../data';
-import { ReactSVG } from 'react-svg';
-import dropdown from "../assets/dropdown.svg";
 import Select from './select';
+import DropdownSVG from './icons/dropdown';
 
 
 type WindowProps = {
@@ -45,7 +44,7 @@ export const Window = ({ windowId }: WindowProps) => {
             value: option.name
           }
           ))} /> : <div className="dropdown-arrow hover-trigger">
-            <ReactSVG src={dropdown} />
+            <DropdownSVG />
           </div>
         }
       </div>
