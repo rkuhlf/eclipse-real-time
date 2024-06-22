@@ -40,6 +40,12 @@ body {
   position: relative;
 }
 
+a {
+  color: white;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .shadow {
   position: absolute;
   width: 100%;
@@ -128,5 +134,14 @@ body {
 
 .hover-trigger {
   margin: 0 !important;
-  filter: drop-shadow(0px 0px 2px rgb(0, 0,0 ,0.5));
+  filter: drop-shadow(0px 0px 2px rgb(0, 0, 0, 0.5));
+}
+
+.description {
+  overflow-y: scroll;
+  height: 100%;
+  padding-top: 2em;
+  padding-bottom: 4em;
+  padding-left: 1em;
+  padding-right: 1em;
 }

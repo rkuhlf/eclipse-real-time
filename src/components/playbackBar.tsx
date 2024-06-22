@@ -17,8 +17,23 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
     const isDraggingRef = useRef(false);
 
     const [intervalId, setIntervalId] = useState<number | null>(null);
+    const wasPlaying = useRef<boolean>(false);
 
-    const { playbackState, setCurrentWatchtime } = useContext(playbackContext);
+    const { playbackState, setCurrentWatchtime, setIsPlaying } = useContext(playbackContext);
+
+    const setPlaybackPosition = (event: MouseEvent) => {
+        if (isDraggingRef.current && containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            const offsetX = event.clientX - rect.left;
+            const fraction = offsetX / rect.width;
+
+            const newValue = min + (max - min) * (fraction);
+            const roundedValue = Math.round(newValue / step) * step;
+            setIsPlaying(false);
+            setSliderPosition(roundedValue);
+            setCurrentWatchtime(roundedValue);
+        }
+    }
 
     useEffect(() => {
         setSliderPosition(playbackState.elapsedTime);
@@ -29,19 +44,15 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
         const handleMouseMove = (event: MouseEvent) => {
             event.preventDefault();
             if (isDraggingRef.current && containerRef.current) {
-                const rect = containerRef.current.getBoundingClientRect();
-                const offsetX = event.clientX - rect.left;
-                const fraction = offsetX / rect.width;
-                console.log(event.clientX, rect.left, rect.width, fraction);
-                const newValue = min + (max - min) * (fraction);
-                const roundedValue = Math.round(newValue / step) * step;
-                setSliderPosition(roundedValue);
-                setCurrentWatchtime(roundedValue);
+                setPlaybackPosition(event);
             }
         };
 
         const handleMouseUp = () => {
-            isDraggingRef.current = false;
+            if (isDraggingRef.current && containerRef.current) {
+                setIsPlaying(wasPlaying.current);
+                isDraggingRef.current = false;
+            }
         };
 
         document.addEventListener('mousemove', handleMouseMove);
@@ -53,8 +64,16 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
         };
     }, [min, max, step]);
 
-    const handleMouseDown = () => {
+    const handleMouseDown = (event: MouseEvent) => {
+        event.preventDefault();
+
         isDraggingRef.current = true;
+        event.preventDefault();
+        if (isDraggingRef.current && containerRef.current) {
+            setIsPlaying(false);
+            wasPlaying.current = playbackState.isPlaying
+            setPlaybackPosition(event);
+        }
     };
 
     useEffect(() => {

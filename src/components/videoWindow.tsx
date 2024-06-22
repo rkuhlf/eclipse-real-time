@@ -118,7 +118,27 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     this.startY = event.clientY - this.translateY;
   };
 
+
   updateTransform = () => {
+    const minDisplayablePixels = 20;
+
+    const containerWidth = this.containerRef.current?.getBoundingClientRect().width;
+    const videoWidth = this.videoRef.current?.getBoundingClientRect().width;
+    if (containerWidth && videoWidth) {
+      const maximalDisplacementX = (containerWidth / this.scale) / 2 + (videoWidth / this.scale / 2) - minDisplayablePixels / this.scale;
+      this.translateX = Math.max(-maximalDisplacementX, this.translateX);
+      this.translateX = Math.min(maximalDisplacementX, this.translateX);
+    }
+
+    const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
+    const videoHeight = this.videoRef.current?.getBoundingClientRect().height;
+    console.log(containerHeight, videoHeight);
+    if (containerHeight && videoHeight) {
+      const maximalDisplacementY = (containerHeight / this.scale) / 2 + (videoHeight / this.scale / 2) - minDisplayablePixels / this.scale;
+      this.translateY = Math.max(-maximalDisplacementY, this.translateY);
+      this.translateY = Math.min(maximalDisplacementY, this.translateY);
+    }
+    
     const video = this.videoRef.current;
     const container = this.containerRef.current;
     if (!video || !container) return;
@@ -128,7 +148,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
 
   render() {
     return (
-      <div className="video-container" ref={this.containerRef}>
+      <div className="video-wrapper" ref={this.containerRef}>
         <video className="video" src={this.props.src} ref={this.videoRef} />
         <ContextListener isPlayingUpdated={(newState) => {
             if (newState.isPlaying) {

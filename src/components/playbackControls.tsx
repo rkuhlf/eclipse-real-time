@@ -39,6 +39,7 @@ const PlaybackControls = () => {
 
         const upHandler = (event: KeyboardEvent) => {
             if (event.key === " ") {
+                event.preventDefault();
                 toggleIsPlaying();
             }
         };

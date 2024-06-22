@@ -9,6 +9,7 @@ interface PlaybackContextType {
     offsetCurrentWatchtime: (val: number) => void;
     updateState: (newstate: Partial<PlaybackState>) => void;
     toggleIsPlaying: () => void;
+    setIsPlaying: (isPlaying: boolean) => void;
 }
 
 export type windowId = "window1" | "window2" | "window3" | "window4";
@@ -27,6 +28,7 @@ export const playbackContext = createContext<PlaybackContextType>({
     offsetCurrentWatchtime: () => { },
     updateState: () => { },
     toggleIsPlaying: () => { },
+    setIsPlaying: () => { },
 });
 
 export type PlaybackState = {
@@ -50,9 +52,20 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
     const toggleIsPlaying = useCallback(() => {
         setState(prevState => {
             if (prevState.isPlaying) {
-                return { ...prevState, isPlaying: false, elapsedTime: prevState.elapsedTime + (Date.now() - prevState.startWatchtime) / 1000 * prevState.playbackSpeed }
+                return { ...prevState, isPlaying: false, elapsedTime: prevState.elapsedTime + (Date.now() - prevState.startWatchtime) / 1000 * prevState.playbackSpeed };
             } else {
-                return { ...prevState, isPlaying: true, startWatchtime: Date.now() }
+                return { ...prevState, isPlaying: true, startWatchtime: Date.now() };
+            }
+        });
+    }, [state, setState]);
+
+    const setIsPlaying = useCallback((isPlaying: boolean) => {
+        setState(prevState => {
+            // If we are pausing it and it was previously playing.
+            if (prevState.isPlaying && !isPlaying) {
+                return { ...prevState, isPlaying, elapsedTime: prevState.elapsedTime + (Date.now() - prevState.startWatchtime) / 1000 * prevState.playbackSpeed };
+            } else {
+                return { ...prevState, isPlaying, startWatchtime: Date.now() };
             }
         });
     }, [state, setState]);
@@ -98,7 +111,7 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
     }, [state, setState]);
 
     return (
-        <playbackContext.Provider value={{ playbackState: state, toggleIsPlaying, setCurrentWatchtime, offsetCurrentWatchtime, updateState }}>
+        <playbackContext.Provider value={{ playbackState: state, setIsPlaying, toggleIsPlaying, setCurrentWatchtime, offsetCurrentWatchtime, updateState }}>
             {children}
         </playbackContext.Provider>
     );
