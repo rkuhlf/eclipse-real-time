@@ -1,12 +1,11 @@
-TODO: 
-
-- Polish up descriptions.
+Must have:
 - Add feature to fix the first frame of the video and the last frame so that we can go until the end of a timer, when the video is prevented from playing any further.
-- Fix issue with inability to scroll past the description window.
-- Tapping the spacebar should always pause, not activate the selected element.
+- Polish up descriptions.
+- You should be able to click on the graph to go to that spot.
+
+Should have:
 - Add the flight.
 - Finish the tables
-- You should be able to click on the graph to go to that spot.
 - Cursor should change to pan while panning.
 
 Nice to have:

@@ -42,7 +42,7 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             },
             {
                 name: "Pressure",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={-0.55} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={-0.55} />
             },
             {
                 name: "Description",
@@ -63,15 +63,15 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             },
             {
                 name: "Thrust",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={0} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire2.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={0} />
             },
             {
                 name: "Pressure",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire2.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={0} />
             },
             {
                 name: "Temperature",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire2.json"} labels="Time (s)" data={["Chamber (\u00b0C)"]} startTime={0} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire2.json"} labels="Time (s)" data={["Chamber (\u00b0C)"]} startTime={0} />
             },
             {
                 name: "Description",
@@ -93,11 +93,11 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             },
             {
                 name: "Thrust",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={1.9} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire3.json"} labels="Time (s)" data={["Thrust (lbf)"]} startTime={1.9} />
             },
             {
                 name: "Pressure",
-                content: <GraphWindow key={Math.random()} dataPath={"../assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={1.9} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire3.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={1.9} />
             },
             {
                 name: "Description",

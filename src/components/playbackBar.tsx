@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useEffect, useRef } from 'preact/hooks';
 import './playbackBar.css';
 import { playbackContext } from '../playbackContext';
 
@@ -16,7 +16,7 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef(false);
 
-    const [intervalId, setIntervalId] = useState<number | null>(null);
+    const intervalId = useRef<number | null>(null);
     const wasPlaying = useRef<boolean>(false);
 
     const { playbackState, setCurrentWatchtime, setIsPlaying } = useContext(playbackContext);
@@ -78,16 +78,15 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
 
     useEffect(() => {
         if (playbackState.isPlaying) {
-            if (intervalId) return;
+            if (intervalId.current) return;
 
-            const id = setInterval(() => {
+            intervalId.current = setInterval(() => {
                 setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
             }, elapsedTimeUpdateInterval * 1000);
-            setIntervalId(id);
         } else {
-            if (!intervalId) return;
-            clearInterval(intervalId);
-            setIntervalId(null);
+            if (!intervalId.current) return;
+            clearInterval(intervalId.current);
+            intervalId.current = null;
         }
     }, [playbackState.isPlaying]);
 
@@ -100,13 +99,13 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
 
     useEffect(() => {
         if (!playbackState.isPlaying) return;
-        if (!intervalId) return;
+        if (!intervalId.current) return;
           
-        clearInterval(intervalId);
+        clearInterval(intervalId.current);
         const id = setInterval(() => {
             setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
         }, elapsedTimeUpdateInterval * 1000);
-        setIntervalId(id);
+        intervalId.current = id;
       }, [playbackState.playbackSpeed]);
 
     const setSliderPosition = (newValue: number) => {

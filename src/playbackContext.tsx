@@ -1,5 +1,5 @@
 import { createContext, ComponentChildren } from 'preact';
-import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useRef, useState } from 'preact/hooks';
 import { hotfireWindows } from './data';
 import { currentHotfireContext } from './hotfireContext';
 
@@ -40,6 +40,8 @@ export type PlaybackState = {
 
 export const PlaybackProvider = ({ children }: { children: ComponentChildren }) => {
     const [state, setState] = useState<PlaybackState>({...defaultState});
+    const [endOfPlaybackTimeoutId, setEndOfPlaybackTimeoutId] = useState<PlaybackState>({...defaultState});
+    const atEndOfPlayback = useRef<boolean>(false);
 
     const { currentHotfireId } = useContext(currentHotfireContext);
 
@@ -54,6 +56,8 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
             if (prevState.isPlaying) {
                 return { ...prevState, isPlaying: false, elapsedTime: prevState.elapsedTime + (Date.now() - prevState.startWatchtime) / 1000 * prevState.playbackSpeed };
             } else {
+                // Start playing.
+                const id = setTimeout(() => {})
                 return { ...prevState, isPlaying: true, startWatchtime: Date.now() };
             }
         });

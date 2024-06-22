@@ -37,11 +37,23 @@ export default class GraphWindow extends Component<GraphWindowProps> {
         this.renderChart();
     }
 
+    async getData(dataPath: string): Promise<Record<string, number[]>> {
+      const data = await fetch(dataPath).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json();
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+
+      return data;
+    }
+
     async componentDidMount() {
-        console.log("Updating");
         const { dataPath } = this.props;
-        /* @vite-ignore */
-        this.data = (await import(dataPath)).default;
+        this.data = await this.getData(dataPath);
         if (this.data == null) return;
 
         this.renderChart();
