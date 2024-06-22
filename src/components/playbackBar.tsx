@@ -98,6 +98,17 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
         }
     }, [playbackState.elapsedTime]);
 
+    useEffect(() => {
+        if (!playbackState.isPlaying) return;
+        if (!intervalId) return;
+          
+        clearInterval(intervalId);
+        const id = setInterval(() => {
+            setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
+        }, elapsedTimeUpdateInterval * 1000);
+        setIntervalId(id);
+      }, [playbackState.playbackSpeed]);
+
     const setSliderPosition = (newValue: number) => {
         const slider = sliderRef.current;
         if (!slider) return;
@@ -105,7 +116,6 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
         slider.style.width = `${((newValue - min) / (max - min)) * 100}%`;
     }
 
-    // TODO: A hover element like youtube has.
     return (
         <div className="slider-hover" onMouseDown={handleMouseDown} ref={containerRef}>
             <div className="slider">

@@ -22,7 +22,7 @@ function formatTime(time: number): string {
 }
 
 const PlaybackControls = () => {
-    const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, updateState } = useContext(playbackContext);
+    const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, updateState, setCurrentWatchtime } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
     const [intervalId, setIntervalId] = useState<number | null>(null);
     const timeRef = useRef<HTMLSpanElement | null>(null);
@@ -53,7 +53,13 @@ const PlaybackControls = () => {
         };
     }, []);
 
+    const getCurrentElapsedTime = () => {
+        return playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed;
+    }
+
     const handleSpeed = (value: string) => {
+        // When we set the speed, we'll also make sure to update the current watch time globally. This prevents an issue where changing the speed while playing causes the wrong speed to be set when paused.
+        setCurrentWatchtime(getCurrentElapsedTime());
         updateState({ playbackSpeed: parseFloat(value) });
     }
 
@@ -62,7 +68,7 @@ const PlaybackControls = () => {
             if (intervalId) return;
 
             const id = setInterval(() => {
-                setTime(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
+                setTime(getCurrentElapsedTime());
             }, elapsedTimeUpdateInterval * 1000);
             setIntervalId(id);
         } else {

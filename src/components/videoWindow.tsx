@@ -161,7 +161,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
         }} playbackSpeedUpdated={(newState) => {
             const video = this.videoRef.current;
             if (!video) return;
-                
+            
             video.playbackRate = newState.playbackSpeed;
         }}
         />

@@ -166,6 +166,17 @@ export default class GraphWindow extends Component<GraphWindowProps> {
                     }
                 };
 
+            }} playbackSpeedUpdated={(newState) => {
+              if (newState.isPlaying) {
+                if (!this.intervalId) {
+                  return;
+                }
+
+                clearInterval(this.intervalId);
+                this.intervalId = setInterval(() => {
+                    this.setTime(newState.elapsedTime + (Date.now() - newState.startWatchtime) / 1000 * newState.playbackSpeed);
+                }, elapsedTimeUpdateInterval * 1000);
+              }
             }} currentWatchtimeUpdated={newState => this.setTime(newState.elapsedTime)} />
         </>;
     }

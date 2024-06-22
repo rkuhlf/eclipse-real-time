@@ -1,8 +1,6 @@
 TODO: 
 
 - Polish up descriptions.
-- Tapping the playback bar should pause. It should also go to that place in the video.
-- Bug where changing playback rate while playing causes elapsed time to get desynced. Should update elapsed time at the moment of the change.
 - Add feature to fix the first frame of the video and the last frame so that we can go until the end of a timer, when the video is prevented from playing any further.
 - Fix issue with inability to scroll past the description window.
 - Tapping the spacebar should always pause, not activate the selected element.
