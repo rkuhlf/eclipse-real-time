@@ -144,4 +144,8 @@ a {
   padding-bottom: 4em;
   padding-left: 1em;
   padding-right: 1em;
+
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
 }

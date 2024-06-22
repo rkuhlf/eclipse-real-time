@@ -3,9 +3,9 @@ import { TimeStampLink } from "./timestampLink";
 
 export const HotfireThreeDescription = () => (
     <Description>
-        <div>Hotfire 3 was the final hotfire before Spaceport. It was ...</div>
+        <div>Hotfire 3 was the final hotfire before Spaceport.</div>
 
-        <div>
+        {/* <div>
             Total Impulse    | 30400 N-s | 6830 lbf-s |
             Burn Time        | 9 s       |
             Max Thrust       | 3800 N    | 860 lbf |
@@ -16,10 +16,13 @@ export const HotfireThreeDescription = () => (
             Specific Impulse |
             C*               |
             C* Efficiency    |
+        </div> */}
+
+        <div>
+            The feedline pressure started nicely near 750 psi, so this is the one test of the three that started with the possibility of attaining nominal pressures. Regardless, like hotfire 2, the combustion chamber in this test starts at 370 psi. However, the second hotfire drops off to 270 psi by the end, whereas hotfire 3 stays up at 330 psi.
         </div>
 
         <div>
-            Started at 742 psi.
             The first smoke shows at <TimeStampLink time={0.63}>0.63 seconds into the data</TimeStampLink>, then we see flame from the ignition mechanism <TimeStampLink time={1.86}>1.2 seconds after</TimeStampLink>, and <TimeStampLink time={1.92}>0.06 seconds after that</TimeStampLink> the full burn begins. Compared to hotfire 2, in which there were two seconds between the first smoke and the full burn, the 1.3 seconds shown here indicates that the goop method yielded a remarkable improvement. It still takes until <TimeStampLink time={2.25}>0.3 seconds later</TimeStampLink> for the burn to stabilize. It's only at this point that we see the fill tubes fly away from the nozzle.
         </div>
         
@@ -30,7 +33,6 @@ export const HotfireThreeDescription = () => (
          </div>
 
 
-        {/* Pressure curves for hotfire 2 and hotfire 3 are somewhat similar. Both start at 370 psi. However, the second hotfire drops off to 270 psi, whereas hotfire 3 stays up at 330 psi. */}
         {/* Burn time is the amount of time from when the ignition finishes and the thrust has stabilized to when the gas-only phase begins. That is the most measurable amount of time. */}
     </Description>
 );

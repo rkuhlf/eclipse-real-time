@@ -15,8 +15,7 @@ export const HotfireTwoDescription = () => (
         C* Efficiency    | */}
 
         <div>
-            Started at 650 psi.
-            The first smoke shows at <TimeStampLink time={3.34}>3.34 seconds into the data</TimeStampLink>, followed by a ton of dark smoke until  <TimeStampLink time={5.37}>2 seconds after</TimeStampLink> when the full burn begins. It still takes until <TimeStampLink time={5.85}>0.5 seconds later</TimeStampLink> for the burn to stabilize, with the tubes flung away slightly before that.
+            The feedline pressure started a little low - 650 psi - so the pressures measured will naturally be a little lower. The first smoke shows at <TimeStampLink time={3.34}>3.34 seconds into the data</TimeStampLink>, followed by a ton of dark smoke until  <TimeStampLink time={5.37}>2 seconds after</TimeStampLink> when the full burn begins. It still takes until <TimeStampLink time={5.85}>0.5 seconds later</TimeStampLink> for the burn to stabilize, with the tubes flung away slightly before that.
         </div>
         
         <div>Notably, there was no temporary pressure drop in the injector PT in this hotfire, even though there was a clear drop in hotfires 0 and 3.</div>

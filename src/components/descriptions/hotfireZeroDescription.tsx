@@ -4,10 +4,10 @@ import { TimeStampLink } from "./timestampLink";
 export const HotfireZeroDescription = () => (
     <Description>
         <div>
-            Hotfire zero was the first full test of Titan 2. We planned to use a flight-configuraton injector plate that would hopefully yield us sufficient oxidizer flow to generate 1200 lbf of thrust, but to only supply half the flight-configuration mass of oxidizer so that the burn time would be 3.5 seconds. Unfortunately, we encountered two main problems: half the desired flow rate, doubling the test's burn time, and an extremely slow startup transient. On top of that, there was an issue with the load cell, so there is no force data for this test.
+            Hotfire zero was the first full test of Titan 2. We planned to use a flight-configuration injector plate that would hopefully yield us sufficient oxidizer flow to generate 1200 lbf of thrust, but to only supply half the flight-configuration mass of oxidizer so that the burn time would be 3.5 seconds. Unfortunately, we encountered two problems: 1{")"} we had half the desired flow rate, doubling the test's burn time, and 2{")"} we had an extremely slow startup transient. On top of that, there was an issue with the load cell, so there is no force data for this test.
         </div>
 
-        <div>
+        {/* <div>
             Total Impulse    | Unknown  | Unknown |
             Burn Time        | 10.5s                 |
             Max Thrust       | Unknown  | Unknown |
@@ -18,11 +18,10 @@ export const HotfireZeroDescription = () => (
             Specific Impulse | Unknown | Unknown |
             C*               |
             C* Efficiency    |
-        </div>
+        </div> */}
 
         <div>
-            Started at 650 psi.
-            The first smoke shows at <TimeStampLink time={1.41}>1.41 seconds into the data</TimeStampLink>, and <TimeStampLink time={2.46}>2 seconds after</TimeStampLink> we see the first signs of a full burn, although we are only reaching half of the peak thrust at this point. The engine doesn't fully get up to speed until <TimeStampLink time={4.08}>a second and a half later</TimeStampLink>. We suspect that part of this is due to the dip in supply pressure from the feed line, and part of it was due to the alternate injection that we used for this hotfire. The two and a half seconds it takes the engine to fully start is a little worse than hotfire 2, in which we saw two seconds, and significantly worse than hotfire three, which fully started in less than one and a half seconds.
+            The feedline pressure started a little low - 650 psi - so the pressures measured will naturally be a little lower. The first smoke shows at <TimeStampLink time={1.41}>1.41 seconds into the data</TimeStampLink>, and <TimeStampLink time={2.46}>2 seconds after</TimeStampLink> we see the first signs of a full burn, although we are only reaching half of the peak thrust at this point. The engine doesn't fully get up to speed until <TimeStampLink time={4.08}>a second and a half later</TimeStampLink>. We suspect that part of this is due to the dip in supply pressure from the feed line, and part of it was due to the alternate injection that we used for this hotfire. The two and a half seconds it takes the engine to fully start is a little worse than hotfire 2, in which we saw two seconds, and significantly worse than hotfire three, which fully started in less than one and a half seconds.
         </div>
         
         <div>The nozzle actually remained intact for the full duration of this hotfire, unlike hotfires 2 and 3. We suspect that this is due to the relatively low pressures the nozzle experienced owing to the lower oxidizer flow rate.</div>
