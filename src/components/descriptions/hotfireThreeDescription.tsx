@@ -3,7 +3,7 @@ import { TimeStampLink } from "./timestampLink";
 
 export const HotfireThreeDescription = () => (
     <Description>
-        <div>Hotfire 3 was the final hotfire before Spaceport.</div>
+        <div>Hotfire 3 was the final hotfire before Spaceport. The main improvement to the engine was combining each trio of injector holes into a single larger hole, with the hope of preventing nylon tubing from blocking the flow and slowing the startup. As the data shows, it seems to have worked fairly well.</div>
 
         {/* <div>
             Total Impulse    | 30400 N-s | 6830 lbf-s |

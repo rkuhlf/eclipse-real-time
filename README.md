@@ -1,13 +1,11 @@
 Must have:
-- Polish up descriptions.
 - You should be able to click on the graph to go to that spot.
-- Fix the glitch where setting the playback speed while paused causes the video to be offset.
-- Fix the playback bar's de-synchronization issues.
 
 Should have:
 - Add the flight.
 - Finish the tables
 - Cursor should change to pan while panning.
+- Loading icon for the videos.
 
 Nice to have:
 - Preserve the state of the different hotfires.
