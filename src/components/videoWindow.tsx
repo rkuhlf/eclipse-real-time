@@ -132,7 +132,6 @@ export default class VideoWindow extends Component<VideoWindowProps> {
 
     const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
     const videoHeight = this.videoRef.current?.getBoundingClientRect().height;
-    console.log(containerHeight, videoHeight);
     if (containerHeight && videoHeight) {
       const maximalDisplacementY = (containerHeight / this.scale) / 2 + (videoHeight / this.scale / 2) - minDisplayablePixels / this.scale;
       this.translateY = Math.max(-maximalDisplacementY, this.translateY);

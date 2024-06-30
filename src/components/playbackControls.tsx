@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
-import { playbackContext } from "../playbackContext";
+import { useContext, useEffect, useRef } from 'preact/hooks';
+import { PlaybackState, playbackContext } from "../playbackContext";
 import { hotfireWindows } from "../data";
 import { currentHotfireContext } from "../hotfireContext";
 
@@ -24,22 +24,37 @@ function formatTime(time: number): string {
 const PlaybackControls = () => {
     const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, updateState, setCurrentWatchtime } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
-    const [intervalId, setIntervalId] = useState<number | null>(null);
+    const intervalId = useRef<number | null>(null);
     const timeRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         setTime(playbackState.elapsedTime);
         const downHandler = (event: KeyboardEvent) => {
             if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                event.stopImmediatePropagation();
                 offsetCurrentWatchtime(-arrowOffset);
             } else if (event.key === "ArrowRight") {
+                event.preventDefault();
+                event.stopImmediatePropagation();
                 offsetCurrentWatchtime(arrowOffset);
+            } else if (event.key === " ") {
+                // The behavior for this is in the upHandler, but we need to prevent default in the down handler as well.
+                event.preventDefault();
+                event.stopImmediatePropagation();
             }
         };
 
         const upHandler = (event: KeyboardEvent) => {
-            if (event.key === " ") {
+            if (event.key === "ArrowLeft") {
                 event.preventDefault();
+                event.stopImmediatePropagation();
+            } else if (event.key === "ArrowRight") {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            } if (event.key === " ") {
+                event.preventDefault();
+                event.stopImmediatePropagation();
                 toggleIsPlaying();
             }
         };
@@ -57,29 +72,43 @@ const PlaybackControls = () => {
         return playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed;
     }
 
-    const handleSpeed = (value: string) => {
-        // When we set the speed, we'll also make sure to update the current watch time globally. This prevents an issue where changing the speed while playing causes the wrong speed to be set when paused.
-        setCurrentWatchtime(getCurrentElapsedTime());
-        updateState({ playbackSpeed: parseFloat(value) });
-    }
-
-    useEffect(() => {
-        if (playbackState.isPlaying) {
-            if (intervalId) return;
+    const updateInterval = (newState: PlaybackState) => {
+        if (newState.isPlaying) {
+            // If we are playing, we need to start a new interval.
+            if (intervalId.current) {
+                clearInterval(intervalId.current);
+            }
 
             const id = setInterval(() => {
                 setTime(getCurrentElapsedTime());
             }, elapsedTimeUpdateInterval * 1000);
-            setIntervalId(id);
+
+            intervalId.current = id;
         } else {
-            if (!intervalId) return;
-            clearInterval(intervalId);
-            setIntervalId(null);
+            // If we're not playing, we need to clear it.
+            if (intervalId.current) {
+                clearInterval(intervalId.current);
+                intervalId.current = null;
+            }
+        };
+    }
+
+    const handleSpeed = (value: string) => {
+        // When we set the speed, we'll also make sure to update the current watch time globally. This prevents an issue where changing the speed while playing causes the wrong speed to be set when paused.
+        if (playbackState.isPlaying) {
+            setCurrentWatchtime(getCurrentElapsedTime());
         }
-    }, [playbackState.isPlaying]);
+        updateState({ playbackSpeed: parseFloat(value) });
+    }
+
+    useEffect(() => {
+        console.log(playbackState.isPlaying, playbackState.playbackSpeed, playbackState.startWatchtime)
+        updateInterval(playbackState);
+    }, [playbackState.isPlaying, playbackState.playbackSpeed, playbackState.startWatchtime]);
 
     useEffect(() => {
         setTime(playbackState.elapsedTime);
+        updateInterval(playbackState);
     }, [playbackState.elapsedTime]);
 
     const setTime = (newValue: number) => {

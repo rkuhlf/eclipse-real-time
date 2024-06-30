@@ -23,7 +23,6 @@ export const Window = ({ windowId }: WindowProps) => {
     if (value !== null) {
       // Update the current window to have the window that matches the name we clicked on.
       for (const entry of hotfireWindows[currentHotfireId].windows) {
-        console.log(entry.name);
         if (entry.name == value) {
           updateCurrentWindows({
             [windowId]: entry

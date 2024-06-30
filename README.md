@@ -1,7 +1,8 @@
 Must have:
-- Add feature to fix the first frame of the video and the last frame so that we can go until the end of a timer, when the video is prevented from playing any further.
 - Polish up descriptions.
 - You should be able to click on the graph to go to that spot.
+- Fix the glitch where setting the playback speed while paused causes the video to be offset.
+- Fix the playback bar's de-synchronization issues.
 
 Should have:
 - Add the flight.

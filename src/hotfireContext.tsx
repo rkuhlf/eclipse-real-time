@@ -41,14 +41,11 @@ export const CurrentHotfireProvider = ({ children }: { children: ComponentChildr
         });
     }, [setCurrentHotfireId, setCurrentWindows]);
 
-    
     const updateCurrentWindows = useCallback((newState: Partial<Record<windowId, WindowInfo>>): void => {
         setCurrentWindows(prevState => ({
           ...prevState, ...newState
         }));
-      }, [setCurrentWindows]);
-
-    
+      }, [setCurrentWindows]);    
 
     return (
         <currentHotfireContext.Provider value={{ currentHotfireId, setCurrentHotfire, currentWindows, updateCurrentWindows }}>

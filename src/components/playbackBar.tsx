@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'preact/hooks';
 import './playbackBar.css';
-import { playbackContext } from '../playbackContext';
+import { PlaybackState, playbackContext } from '../playbackContext';
 
 interface SliderProps {
     min: number;
@@ -75,20 +75,31 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
             setPlaybackPosition(event);
         }
     };
+    
+    const getCurrentElapsedTime = () => {
+        return playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed;
+    }
 
-    useEffect(() => {
-        if (playbackState.isPlaying) {
-            if (intervalId.current) return;
+    const updateInterval = (newState: PlaybackState) => {
+        if (newState.isPlaying) {
+            // If we are playing, we need to start a new interval.
+            if (intervalId.current) {
+                clearInterval(intervalId.current);
+            }
 
-            intervalId.current = setInterval(() => {
-                setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
+            const id = setInterval(() => {
+                setSliderPosition(getCurrentElapsedTime());
             }, elapsedTimeUpdateInterval * 1000);
+
+            intervalId.current = id;
         } else {
-            if (!intervalId.current) return;
-            clearInterval(intervalId.current);
-            intervalId.current = null;
-        }
-    }, [playbackState.isPlaying]);
+            // If we're not playing, we need to clear it.
+            if (intervalId.current) {
+                clearInterval(intervalId.current);
+                intervalId.current = null;
+            }
+        };
+    }
 
     useEffect(() => {
         // If we're dragging then we're the reason for this change, and we should just ignore it.
@@ -98,12 +109,16 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
     }, [playbackState.elapsedTime]);
 
     useEffect(() => {
+        updateInterval(playbackState);
+    }, [playbackState.startWatchtime, playbackState.isPlaying, playbackState.playbackSpeed]);
+
+    useEffect(() => {
         if (!playbackState.isPlaying) return;
         if (!intervalId.current) return;
           
         clearInterval(intervalId.current);
         const id = setInterval(() => {
-            setSliderPosition(playbackState.elapsedTime + (Date.now() - playbackState.startWatchtime) / 1000 * playbackState.playbackSpeed);
+            setSliderPosition(getCurrentElapsedTime());
         }, elapsedTimeUpdateInterval * 1000);
         intervalId.current = id;
       }, [playbackState.playbackSpeed]);

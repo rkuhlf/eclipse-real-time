@@ -40,42 +40,79 @@ export type PlaybackState = {
 
 export const PlaybackProvider = ({ children }: { children: ComponentChildren }) => {
     const [state, setState] = useState<PlaybackState>({...defaultState});
-    const [endOfPlaybackTimeoutId, setEndOfPlaybackTimeoutId] = useState<PlaybackState>({...defaultState});
+    const endOfPlaybackTimeoutId = useRef<number | null>(null);
     const atEndOfPlayback = useRef<boolean>(false);
 
     const { currentHotfireId } = useContext(currentHotfireContext);
 
-    const updateState = (newState: Partial<PlaybackState>) => {
+    const getCurrentWatchTime = (state: PlaybackState) => {
+        if (state.startWatchtime == 0 && state.elapsedTime == 0) {
+            return 0;
+        }
+
+        return state.elapsedTime + (Date.now() - state.startWatchtime) / 1000 * state.playbackSpeed;
+    }
+
+    const computeRemainingTime = (newState: PlaybackState) => {
+        console.log(currentHotfireId);
+        return (hotfireWindows[currentHotfireId].duration - getCurrentWatchTime(newState)) / newState.playbackSpeed;
+    }
+
+    const updateEndOfPlaybackTimeout = (newState: PlaybackState) => {
+        if (!newState.isPlaying) {
+            // If we've paused, all we have to do is clear the time out.
+            if (endOfPlaybackTimeoutId.current) { clearTimeout(endOfPlaybackTimeoutId.current); }
+        } else {
+            // If we are now playing, we need to start up the timeout.
+            if (endOfPlaybackTimeoutId.current) { clearTimeout(endOfPlaybackTimeoutId.current); }
+            endOfPlaybackTimeoutId.current = setTimeout(() => {
+                console.log("STOPPING!");
+                atEndOfPlayback.current = true;
+                setIsPlaying(false);
+            }, computeRemainingTime(newState) * 1000);
+        }
+    }
+
+    const updateState = (replacementState: Partial<PlaybackState>) => {
         setState(prevState => {
-            return { ...prevState, ...newState };
+            const newState = { ...prevState, ...replacementState };
+            updateEndOfPlaybackTimeout(newState);
+            return newState;
         })
     }
 
     const toggleIsPlaying = useCallback(() => {
         setState(prevState => {
+            let newState;
             if (prevState.isPlaying) {
-                return { ...prevState, isPlaying: false, elapsedTime: prevState.elapsedTime + (Date.now() - prevState.startWatchtime) / 1000 * prevState.playbackSpeed };
+                newState = { ...prevState, isPlaying: false, elapsedTime: getCurrentWatchTime(prevState) };
             } else {
-                // Start playing.
-                const id = setTimeout(() => {})
-                return { ...prevState, isPlaying: true, startWatchtime: Date.now() };
+                newState = { ...prevState, isPlaying: true, startWatchtime: Date.now() };
             }
+            updateEndOfPlaybackTimeout(newState);
+            return newState;
         });
     }, [state, setState]);
 
     const setIsPlaying = useCallback((isPlaying: boolean) => {
-        setState(prevState => {
+        setState(prevState => {            
             // If we are pausing it and it was previously playing.
             if (prevState.isPlaying && !isPlaying) {
-                return { ...prevState, isPlaying, elapsedTime: prevState.elapsedTime + (Date.now() - prevState.startWatchtime) / 1000 * prevState.playbackSpeed };
+                const newState = { ...prevState, isPlaying, elapsedTime: getCurrentWatchTime(prevState) };
+                updateEndOfPlaybackTimeout(newState);
+                return newState;
             } else {
-                return { ...prevState, isPlaying, startWatchtime: Date.now() };
+                const newState = { ...prevState, isPlaying, startWatchtime: Date.now() };
+                updateEndOfPlaybackTimeout(newState);
+                return newState;
             }
         });
     }, [state, setState]);
 
     useEffect(() => {
-        setState({...defaultState})
+        const newState = {...defaultState};
+        updateEndOfPlaybackTimeout(newState);
+        setState(newState);
     }, [currentHotfireId])
 
     const setCurrentWatchtime = useCallback((newTime: number) => {
@@ -84,11 +121,13 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
             newTime = Math.max(0, newTime);
             newTime = Math.min(hotfireWindows[currentHotfireId].duration, newTime);
 
-            return {
+            const newState = {
                 ...prevState,
                 elapsedTime: newTime,
                 startWatchtime: Date.now()
             };
+            updateEndOfPlaybackTimeout(newState);
+            return newState;
         });
     }, [state, setState]);
 
@@ -106,11 +145,13 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
             newTime = Math.max(0, newTime);
             newTime = Math.min(hotfireWindows[currentHotfireId].duration, newTime);
 
-            return {
+            const newState = {
                 ...prevState,
                 elapsedTime: newTime,
                 startWatchtime: now
             };
+            updateEndOfPlaybackTimeout(newState);
+            return newState;
         });
     }, [state, setState]);
 

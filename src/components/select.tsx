@@ -19,6 +19,8 @@ const Select = ({ options, defaultValue, onChange }: SelectProps) => {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const handleOptionChange = (event: Event) => {
+    event.preventDefault();
+    console.log("Preventing default");
     const select = event.target as any;
     if (!select) return;
 
