@@ -68,7 +68,6 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
         event.preventDefault();
 
         isDraggingRef.current = true;
-        event.preventDefault();
         if (isDraggingRef.current && containerRef.current) {
             setIsPlaying(false);
             wasPlaying.current = playbackState.isPlaying
@@ -111,17 +110,6 @@ const PlaybackBar = ({ min, max, step = 1 }: SliderProps) => {
     useEffect(() => {
         updateInterval(playbackState);
     }, [playbackState.startWatchtime, playbackState.isPlaying, playbackState.playbackSpeed]);
-
-    useEffect(() => {
-        if (!playbackState.isPlaying) return;
-        if (!intervalId.current) return;
-          
-        clearInterval(intervalId.current);
-        const id = setInterval(() => {
-            setSliderPosition(getCurrentElapsedTime());
-        }, elapsedTimeUpdateInterval * 1000);
-        intervalId.current = id;
-      }, [playbackState.playbackSpeed]);
 
     const setSliderPosition = (newValue: number) => {
         const slider = sliderRef.current;

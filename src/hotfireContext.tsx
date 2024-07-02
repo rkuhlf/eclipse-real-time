@@ -2,7 +2,7 @@ import { createContext, ComponentChildren } from 'preact';
 import { useCallback, useState } from 'preact/hooks';
 import { WindowInfo, hotfireId, hotfireWindows } from './data';
 
-interface CurrentHotfireContextType {
+export interface CurrentHotfireContextType {
     currentHotfireId: hotfireId;
     setCurrentHotfire: (hotfireId: hotfireId) => void;
     currentWindows: Partial<Record<windowId, WindowInfo>>;

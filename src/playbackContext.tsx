@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'preact/hoo
 import { hotfireWindows } from './data';
 import { currentHotfireContext } from './hotfireContext';
 
-interface PlaybackContextType {
+export interface PlaybackContextType {
     playbackState: PlaybackState;
     setCurrentWatchtime: (val: number) => void;
     offsetCurrentWatchtime: (val: number) => void;
@@ -66,7 +66,6 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
             // If we are now playing, we need to start up the timeout.
             if (endOfPlaybackTimeoutId.current) { clearTimeout(endOfPlaybackTimeoutId.current); }
             endOfPlaybackTimeoutId.current = setTimeout(() => {
-                console.log("STOPPING!");
                 atEndOfPlayback.current = true;
                 setIsPlaying(false);
             }, computeRemainingTime(newState) * 1000);

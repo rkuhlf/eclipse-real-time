@@ -1,5 +1,5 @@
 Must have:
-- You should be able to click on the graph to go to that spot.
+- For now it should say that it only works on desktop.
 
 Should have:
 - Add the flight.
@@ -16,8 +16,10 @@ Nice to have:
 - See if there is a properly zeroed thrust curve for hotfire 2.
 - Do an analysis for combustion instability.
     - In particular during the second half of hotfire 2.
-
-
+- It would be good to have photos for all of this stuff in the description.
+- It would be fun to have a text description for each component as its own window.
+- It would be nice to have a full-screen button for each of the windows.
+- The playbackUpdate intervals should be refactored into an observer pattern - a bunch of components observing the update of a central interval.
 
 
 

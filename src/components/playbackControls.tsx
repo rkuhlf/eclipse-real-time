@@ -102,7 +102,6 @@ const PlaybackControls = () => {
     }
 
     useEffect(() => {
-        console.log(playbackState.isPlaying, playbackState.playbackSpeed, playbackState.startWatchtime)
         updateInterval(playbackState);
     }, [playbackState.isPlaying, playbackState.playbackSpeed, playbackState.startWatchtime]);
 
