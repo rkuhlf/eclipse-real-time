@@ -53,7 +53,6 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
     if (!options) return;
 
-    console.log(this.elapsedTime);
     options.test = this.elapsedTime;
     this.renderChart();
   }
@@ -147,8 +146,6 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
         if (xValue < scale.min || xValue > scale.max) return;
 
         const linePosition = scale.getPixelForValue(xValue);
-
-        console.log(xValue, linePosition);
 
         // Draw line within the chart area
         context.save();

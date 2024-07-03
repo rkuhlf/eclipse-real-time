@@ -44,6 +44,8 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
     const atEndOfPlayback = useRef<boolean>(false);
 
     const { currentHotfireId } = useContext(currentHotfireContext);
+    // For reasons I don't entirely understand, the state variable captured in the inner function is not updated by setstate, so I track it manually with a ref.
+    const refCopyOfHotfireId = useRef<string>(currentHotfireId);
 
     const getCurrentWatchTime = (state: PlaybackState) => {
         if (state.startWatchtime == 0 && state.elapsedTime == 0) {
@@ -53,9 +55,8 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
         return state.elapsedTime + (Date.now() - state.startWatchtime) / 1000 * state.playbackSpeed;
     }
 
-    const computeRemainingTime = (newState: PlaybackState) => {
-        console.log(currentHotfireId);
-        return (hotfireWindows[currentHotfireId].duration - getCurrentWatchTime(newState)) / newState.playbackSpeed;
+    function computeRemainingTime(newState: PlaybackState) {
+        return (hotfireWindows[refCopyOfHotfireId.current].duration - getCurrentWatchTime(newState)) / newState.playbackSpeed;
     }
 
     const updateEndOfPlaybackTimeout = (newState: PlaybackState) => {
@@ -112,6 +113,7 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
         const newState = {...defaultState};
         updateEndOfPlaybackTimeout(newState);
         setState(newState);
+        refCopyOfHotfireId.current = currentHotfireId;
     }, [currentHotfireId])
 
     const setCurrentWatchtime = useCallback((newTime: number) => {
@@ -142,7 +144,7 @@ export const PlaybackProvider = ({ children }: { children: ComponentChildren }) 
             let newTime = prevWatchtime + offset;
             // Clamp the time to the times we want to allow.
             newTime = Math.max(0, newTime);
-            newTime = Math.min(hotfireWindows[currentHotfireId].duration, newTime);
+            newTime = Math.min(hotfireWindows[refCopyOfHotfireId.current].duration, newTime);
 
             const newState = {
                 ...prevState,

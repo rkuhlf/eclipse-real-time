@@ -5,7 +5,7 @@ import { WindowInfo, hotfireId, hotfireWindows } from './data';
 export interface CurrentHotfireContextType {
     currentHotfireId: hotfireId;
     setCurrentHotfire: (hotfireId: hotfireId) => void;
-    currentWindows: Partial<Record<windowId, WindowInfo>>;
+        currentWindows: Partial<Record<windowId, WindowInfo>>;
     updateCurrentWindows: (update: Partial<Record<windowId, WindowInfo>>) => void;
 }
 
@@ -17,7 +17,7 @@ export const currentHotfireContext = createContext<CurrentHotfireContextType>({
     setCurrentHotfire: () => { },
     currentWindows: {},
     updateCurrentWindows: () => { },
-});
+    });
 
 export const CurrentHotfireProvider = ({ children }: { children: ComponentChildren }) => {
     const initialHotfire = 'Hotfire 0';

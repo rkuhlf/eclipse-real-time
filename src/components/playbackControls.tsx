@@ -17,15 +17,17 @@ const frameOffset = 0.03;
 
 const elapsedTimeUpdateInterval = 0.06;
 
-function formatTime(time: number): string {
-    return time.toFixed(2);
-}
-
 const PlaybackControls = () => {
     const { playbackState, toggleIsPlaying, offsetCurrentWatchtime, updateState, setCurrentWatchtime } = useContext(playbackContext);
     const { currentHotfireId } = useContext(currentHotfireContext);
     const intervalId = useRef<number | null>(null);
     const timeRef = useRef<HTMLSpanElement | null>(null);
+
+    const formatTime = (time: number): string => {
+        time = Math.max(time, 0);
+        time = Math.min(time, hotfireWindows[currentHotfireId].duration);
+        return time.toFixed(2);
+    }
 
     useEffect(() => {
         setTime(playbackState.elapsedTime);
