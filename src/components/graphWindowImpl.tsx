@@ -78,7 +78,8 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
       // Translate the pixel position to a chart label
       const newValue = this.chartObject.scales.x.getValueForPixel(xPos) as number;
-
+      
+      console.log("Setting false here");
       this.playbackContext.setIsPlaying(false);
       this.setTime(newValue);
       this.playbackContext.setCurrentWatchtime(newValue);
@@ -90,11 +91,17 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
     this.isDraggingRef.current = true;
     if (this.isDraggingRef.current && this.chartRef.current) {
-      this.wasPlayingRef.current = this.playbackContext.playbackState.isPlaying
+      this.wasPlayingRef.current = this.playbackContext.playbackState.isPlaying;
+      console.log("Setting", this.wasPlayingRef.current);
       this.playbackContext.setIsPlaying(false);
       this.setPlaybackPosition(event);
     }
   };
+
+  componentWillReceiveProps(nextProps: Readonly<GraphWindowImplProps>, nextContext: any): void {
+    // We manually update the playback context every single time because the props doesn't find a diff between it since it only checks shallowly.
+    this.playbackContext = nextProps.playbackContext;
+  }
 
   handleMouseMove(event: MouseEvent) {
     event.preventDefault();
@@ -105,6 +112,7 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
   handleMouseUp() {
       if (this.isDraggingRef.current && this.chartRef.current) {
+        console.log(this.wasPlayingRef.current);
         this.playbackContext.setIsPlaying(this.wasPlayingRef.current || false);
         this.isDraggingRef.current = false;
       }
