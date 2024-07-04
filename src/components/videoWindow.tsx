@@ -2,6 +2,7 @@ import { Component, RefObject, createRef } from "preact";
 
 import "./videoWindow.css"
 import { ContextListener } from "./contextListener";
+import { VideoLoader } from "./videoLoader";
 
 interface VideoWindowProps {
     src: string;
@@ -18,11 +19,17 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   startY: number;
   translateX: number;
   translateY: number;
+  state: {
+    isLoading: boolean;
+  }
 
   constructor(props: VideoWindowProps) {
     super(props);
     this.videoRef = createRef();
     this.containerRef = createRef();
+    this.state = {
+      isLoading: true
+    }
     this.scale = 1;
     this.isDragging = false;
     this.startX = 0;
@@ -48,6 +55,17 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     container.addEventListener('mousedown', this.handleMouseDown);
     document.addEventListener('mouseup', this.handleMouseUp);
     document.addEventListener('mousemove', this.handleMouseMove);
+    
+    this.videoRef.current?.addEventListener("loadstart", () => {
+      this.setState({
+        isLoading: true
+      })
+    });
+    this.videoRef.current?.addEventListener("canplay", () => {
+      this.setState({
+        isLoading: false
+      })
+    });
   }
 
   componentWillUnmount() {
@@ -146,9 +164,14 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   };
 
   render() {
+    console.log(this.state.isLoading);
     return (
       <div className="video-wrapper" ref={this.containerRef}>
-        <video className="video" src={this.props.src} ref={this.videoRef} />
+        {
+          this.state.isLoading ? <VideoLoader />
+          : <></>
+        }
+        <video className={"video" + (this.state.isLoading ? " loading" : "")} src={this.props.src} ref={this.videoRef} />
         <ContextListener isPlayingUpdated={(newState) => {
             if (newState.isPlaying) {
                 this.videoRef.current?.play();
