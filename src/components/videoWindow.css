@@ -15,6 +15,10 @@
     display: none;
 }
 
+.cursor-pan {
+    cursor: move;
+}
+
 .spinner {
     width: var(--spinner-size);
     height: var(--spinner-size);

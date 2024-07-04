@@ -116,10 +116,14 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     this.isDragging = true;
     this.startX = event.clientX - this.translateX;
     this.startY = event.clientY - this.translateY;
+
+    this.videoRef.current?.classList.add("cursor-pan");
   };
 
   handleMouseUp = () => {
     this.isDragging = false;
+
+    this.videoRef.current?.classList.remove("cursor-pan");
   };
 
   handleMouseMove = (event: MouseEvent) => {
@@ -164,9 +168,9 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   };
 
   render() {
-    console.log(this.state.isLoading);
+    console.log(this.isDragging);
     return (
-      <div className="video-wrapper" ref={this.containerRef}>
+      <div className={"video-wrapper"} ref={this.containerRef}>
         {
           this.state.isLoading ? <VideoLoader />
           : <></>
