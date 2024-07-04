@@ -98,7 +98,7 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
     }
   };
 
-  componentWillReceiveProps(nextProps: Readonly<GraphWindowImplProps>, nextContext: any): void {
+  componentWillReceiveProps(nextProps: Readonly<GraphWindowImplProps>, _nextContext: any): void {
     // We manually update the playback context every single time because the props doesn't find a diff between it since it only checks shallowly.
     this.playbackContext = nextProps.playbackContext;
   }
