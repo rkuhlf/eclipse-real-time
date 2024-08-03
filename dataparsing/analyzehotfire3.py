@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    # df = pd.read_csv("./dataparsing/hotfire3data.csv")
     df = pd.read_csv("./dataparsing/fullhotfire3data.csv")
     df = df.reset_index(drop=True)
 

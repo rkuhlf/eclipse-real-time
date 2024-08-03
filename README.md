@@ -21,3 +21,11 @@ Nice to have:
 
 
 
+- Ella and Owen both would have benefited from a tutorial
+- Ella wants a note about the flame diverter that went flying in hotfire 3
+- Hotfire 0 the trailer view should start centered on the flame.
+- Weird bug where the dropdown doesn't show up instantly (Safari) after switching hotfires.
+- The red line for the graphsis really far offset from the cursor (especially noticeable on hotfire 3).
+- Add a hotfire 1 with at least an explanation.
+- Title hotfire dropdown is too big.
+- Add 'k' as a shortcut to make it play.
