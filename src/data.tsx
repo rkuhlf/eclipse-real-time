@@ -134,7 +134,7 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             },
             {
                 name: "Reactions Cam",
-                content: <VideoWindow key={Math.random()} src={teamReactions} startTime={6} />
+                content: <VideoWindow key={Math.random()} src={teamReactions} startTime={6} scale={0.5} />
             },
             {
                 name: "Altitude MSL (ft)",
