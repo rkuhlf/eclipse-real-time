@@ -5,10 +5,10 @@ import { ContextListener } from "./contextListener";
 import { VideoLoader } from "./videoLoader";
 
 interface VideoWindowProps {
-    src: string;
-    startTime: number;
+  src: string;
+  startTime: number;
 }
-  
+
 // Used a component because GPT did it this way and it was more performant than when it converted it into a function.
 export default class VideoWindow extends Component<VideoWindowProps> {
   videoRef: RefObject<HTMLVideoElement>;
@@ -20,6 +20,8 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   translateX: number;
   translateY: number;
   state: {
+    // Fraction from 0 to 1.
+    loadingPercentage: number;
     isLoading: boolean;
   }
 
@@ -28,6 +30,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     this.videoRef = createRef();
     this.containerRef = createRef();
     this.state = {
+      loadingPercentage: 0,
       isLoading: true
     }
     this.scale = 1;
@@ -45,7 +48,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   setTime(newTime: number) {
     const video = this.videoRef.current;
     if (!video) return;
-    
+
     video.currentTime = this.getTimeRelativeToVideo(newTime);
   }
 
@@ -59,18 +62,33 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     container.addEventListener('mousedown', this.handleMouseDown);
     document.addEventListener('mouseup', this.handleMouseUp);
     document.addEventListener('mousemove', this.handleMouseMove);
-    
-    this.videoRef.current?.addEventListener("loadstart", () => {
+
+    const video = this.videoRef.current;
+
+    if (!video) return;
+
+    video.addEventListener("loadstart", () => {
       this.setState({
+        loadingPercentage: 0,
         isLoading: true
       })
     });
-    this.videoRef.current?.addEventListener("canplay", () => {
-      // TODO: Eventually this should set the video to the correct time and make sure that it starts playing if the user clicked  play before it finished loading.
+    video.addEventListener("canplay", () => {
+      // TODO: Eventually this should set the video to the correct time and make sure that it starts playing if the user clicked  play before it finished loading. I didn't do it because it requires adding another elapsed time variable to the state.
       this.setState({
+        loadingPercentage: 1,
         isLoading: false
       })
     });
+
+    video.addEventListener('progress', () => {
+      const loadedPercentage = video.buffered.end(0) / video.duration;
+
+      this.setState({
+        loadingPercentage: loadedPercentage,
+      })
+    });
+
   }
 
   componentWillUnmount() {
@@ -92,7 +110,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     const rect = container.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     const centerToMouseX = event.clientX - centerX;
     const centerToMouseY = event.clientY - centerY;
 
@@ -138,7 +156,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     const yDragged = (event.clientY - this.startY) - this.translateY;
     this.translateX += xDragged / this.scale;
     this.translateY += yDragged / this.scale;
-    
+
     this.updateTransform();
 
     this.startX = event.clientX - this.translateX;
@@ -164,7 +182,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
       this.translateY = Math.max(-maximalDisplacementY, this.translateY);
       this.translateY = Math.min(maximalDisplacementY, this.translateY);
     }
-    
+
     const video = this.videoRef.current;
     const container = this.containerRef.current;
     if (!video || !container) return;
@@ -176,26 +194,27 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     return (
       <div className={"video-wrapper"} ref={this.containerRef}>
         {
-          this.state.isLoading ? <VideoLoader />
-          : <></>
+          this.state.isLoading ? <VideoLoader percentage={this.state.loadingPercentage} />
+            : <></>
         }
+
         <video className={"video" + (this.state.isLoading ? " loading" : "")} src={this.props.src} ref={this.videoRef} />
         <ContextListener isPlayingUpdated={(newState) => {
-            if (newState.isPlaying) {              
-              this.videoRef.current?.play();
-              
-              // Make sure we're starting at the right time.
-              this.setTime(newState.elapsedTime);
-            } else {
-                this.videoRef.current?.pause();
-            }
-        }} currentWatchtimeUpdated={(newState) => {
+          if (newState.isPlaying) {
+            this.videoRef.current?.play();
+
+            // Make sure we're starting at the right time.
             this.setTime(newState.elapsedTime);
+          } else {
+            this.videoRef.current?.pause();
+          }
+        }} currentWatchtimeUpdated={(newState) => {
+          this.setTime(newState.elapsedTime);
         }} playbackSpeedUpdated={(newState) => {
-            const video = this.videoRef.current;
-            if (!video) return;
-            
-            video.playbackRate = newState.playbackSpeed;
+          const video = this.videoRef.current;
+          if (!video) return;
+
+          video.playbackRate = newState.playbackSpeed;
         }}
         />
       </div>

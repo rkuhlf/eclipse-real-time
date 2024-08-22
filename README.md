@@ -1,7 +1,7 @@
 Must have:
-- For now it should say that it only works on desktop.
 
 Should have:
+- Start with default positions.
 - Add the flight.
     - Add the sim.
     - Subtract out the predicted drag from the rocket, and subtract out the predicted thrust from the rocket to get some predicted forces.
