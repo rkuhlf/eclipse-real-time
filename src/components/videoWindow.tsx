@@ -7,6 +7,9 @@ import { VideoLoader } from "./videoLoader";
 interface VideoWindowProps {
   src: string;
   startTime: number;
+  offsetX?: number;
+  offsetY?: number;
+  scale?: number;
 }
 
 // Used a component because GPT did it this way and it was more performant than when it converted it into a function.
@@ -57,6 +60,12 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     if (!container) return;
 
     this.setTime(0);
+
+    this.translateX += (this.props.offsetX || 0) / this.scale;
+    this.translateY += (this.props.offsetY || 0) / this.scale;
+    this.scale = this.props.scale || 1;
+
+    this.updateTransform();
 
     container.addEventListener('wheel', this.handleWheel);
     container.addEventListener('mousedown', this.handleMouseDown);

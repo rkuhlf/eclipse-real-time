@@ -22,22 +22,24 @@ export const currentHotfireContext = createContext<CurrentHotfireContextType>({
 export const CurrentHotfireProvider = ({ children }: { children: ComponentChildren }) => {
     const initialHotfire = 'Hotfire 0';
     const [currentHotfireId, setCurrentHotfireId] = useState<hotfireId>(initialHotfire);
+    const initialWindow = hotfireWindows[initialHotfire];
     const [currentWindows, setCurrentWindows] = useState<Partial<Record<windowId, WindowInfo>>>({
-        "window1": hotfireWindows[initialHotfire].windows[0],
-        "window2": hotfireWindows[initialHotfire].windows[1],
-        "window3": hotfireWindows[initialHotfire].windows[2],
-        "window4": hotfireWindows[initialHotfire].windows[3],
+        "window1": initialWindow.windows[initialWindow.defaultWindow1 || 0],
+        "window2": initialWindow.windows[initialWindow.defaultWindow2 || 1],
+        "window3": initialWindow.windows[initialWindow.defaultWindow3 || 2],
+        "window4": initialWindow.windows[initialWindow.defaultWindow4 || 3],
     });
 
     // TODO: Make it so that we read in the previous state of all of the windows.
     const setCurrentHotfire = useCallback((newId: hotfireId) => {
         setCurrentHotfireId(newId);
-
+        
+        const window = hotfireWindows[newId];
         setCurrentWindows({
-            "window1": hotfireWindows[newId].windows[0],
-            "window2": hotfireWindows[newId].windows[1],
-            "window3": hotfireWindows[newId].windows[2],
-            "window4": hotfireWindows[newId].windows[3],
+            "window1": window.windows[window.defaultWindow1 || 0],
+            "window2": window.windows[window.defaultWindow2 || 1],
+            "window3": window.windows[window.defaultWindow3 || 2],
+            "window4": window.windows[window.defaultWindow4 || 3],
         });
     }, [setCurrentHotfireId, setCurrentWindows]);
 

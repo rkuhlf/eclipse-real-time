@@ -26,7 +26,11 @@ export type WindowInfo = {
 
 export type HotfireInfo = {
     duration: number,
-    windows: WindowInfo[]
+    windows: WindowInfo[],
+    defaultWindow1?: number;
+    defaultWindow2?: number;
+    defaultWindow3?: number;
+    defaultWindow4?: number;
 }
 
 
@@ -38,12 +42,12 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Ground Video",
                 // Synced
-                content: <VideoWindow key={Math.random()} src={hotfire0ground} startTime={0} />,
+                content: <VideoWindow key={Math.random()} src={hotfire0ground} startTime={0} scale={2} />,
             },
             {
                 name: "Trailer Video",
                 // Synced
-                content: <VideoWindow key={Math.random()} src={hotfire0trailer} startTime={0} />
+                content: <VideoWindow key={Math.random()} src={hotfire0trailer} startTime={0} offsetY={-180} scale={0.75} />
             },
             {
                 name: "Pressure",
@@ -56,15 +60,16 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
         ]
     },
     "Hotfire 2": {
+        defaultWindow4: 5,
         duration: 40, windows: [
             {
                 name: "Ground Video",
                 // Synced.
-                content: <VideoWindow key={Math.random()} src={hotfire2ground} startTime={3.65} />,
+                content: <VideoWindow key={Math.random()} src={hotfire2ground} startTime={3.65} scale={0.7} />,
             },
             {
                 name: "Trailer Video",
-                content: <VideoWindow key={Math.random()} src={hotfire2trailer} startTime={0} />
+                content: <VideoWindow key={Math.random()} src={hotfire2trailer} startTime={0} scale={1.11776} offsetX={-22.9941} offsetY={-100.12} />
             },
             {
                 name: "Thrust",
@@ -85,6 +90,7 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
         ]
     },
     "Hotfire 3": {
+        defaultWindow4: 4,
         duration: 29, windows: [
             {
                 name: "Ground Video",
@@ -111,11 +117,16 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
         ]
     },
     "Flight": {
+        defaultWindow3: 4,
+        defaultWindow4: 9,
         duration: 400, windows: [
-            // I need to make each of these videos longer in the front by exactly ten seconds, otherwise I'll have to redo the cropping. I guess the Calgary one is fine actually, just the Trailer Cam and the Baymax Cam.
             {
                 name: "Calgary Cam",
                 content: <VideoWindow key={Math.random()} src={calgaryCam} startTime={5.39} />
+            },
+            {
+                name: "Baymax Cam",
+                content: <VideoWindow key={Math.random()} src={baymaxCam} startTime={8.5} scale={0.5} />
             },
             {
                 name: "Trailer Cam",
@@ -124,10 +135,6 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Reactions Cam",
                 content: <VideoWindow key={Math.random()} src={teamReactions} startTime={6} />
-            },
-            {
-                name: "Baymax Cam",
-                content: <VideoWindow key={Math.random()} src={baymaxCam} startTime={8.5} />
             },
             {
                 name: "Altitude MSL (ft)",
