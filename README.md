@@ -1,9 +1,15 @@
 Must have:
 - For now it should say that it only works on desktop.
+- Bug where after first loading the video doesn't start up synced.
+- Bug where hitting the play button after the playback has finished causes it to restart.
+- When the graph gets started, it should add the playback line immediately (right now it doesn't).
 
 Should have:
 - Add the flight.
+    - Add the sim.
+    - Subtract out the predicted drag from the rocket, and subtract out the predicted thrust from the rocket to get some predicted forces.
 - Finish the tables
+- Add ability to specify defaults, that way I can list everything in a sensible order in the dropdown.
 
 Nice to have:
 - Preserve the state of the different hotfires.
@@ -18,9 +24,11 @@ Nice to have:
 - It would be fun to have a text description for each component (e.g. nozzle) as its own window.
 - It would be nice to have a full-screen button for each of the windows.
 - The playbackUpdate intervals should be refactored into an observer pattern - a bunch of components observing the update of a central interval.
+- It would be good to have a graph of the prediction - could maybe be a checkbox for a line that you could enable or disable.
+- Tutorial
+- Mute button for the video feeds.
 
-
-
+Feedback:
 - Ella and Owen both would have benefited from a tutorial
 - Ella wants a note about the flame diverter that went flying in hotfire 3
 - Hotfire 0 the trailer view should start centered on the flame.

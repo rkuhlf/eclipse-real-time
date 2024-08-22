@@ -168,7 +168,6 @@ export default class VideoWindow extends Component<VideoWindowProps> {
   };
 
   render() {
-    console.log(this.isDragging);
     return (
       <div className={"video-wrapper"} ref={this.containerRef}>
         {

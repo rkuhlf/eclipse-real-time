@@ -12,7 +12,12 @@ import hotfire2trailer from "./assets/hotfire2trailer.mp4";
 import hotfire2ground from "./assets/hotfire2ground.mp4";
 import hotfire3trailer from "./assets/hotfire3trailer.mp4";
 import hotfire3ground from "./assets/hotfire3ground.mp4";
+import baymaxCam from "./assets/BaymaxCam.mp4";
+import teamReactions from "./assets/TeamReactions.mp4";
+import trailerCam from "./assets/TrailerCam.mp4";
+import calgaryCam from "./assets/CalgaryRegularSpeed.mp4";
 import GraphWindow from "./components/graphWindow"
+import { FlightDescription } from "./components/descriptions/flightDescription"
 
 export type WindowInfo = {
     name: string,
@@ -102,6 +107,51 @@ export const hotfireWindows: Record<string, HotfireInfo> = {
             {
                 name: "Description",
                 content: <HotfireThreeDescription />
+            },
+        ]
+    },
+    "Flight": {
+        duration: 400, windows: [
+            // I need to make each of these videos longer in the front by exactly ten seconds, otherwise I'll have to redo the cropping. I guess the Calgary one is fine actually, just the Trailer Cam and the Baymax Cam.
+            {
+                name: "Calgary Cam",
+                content: <VideoWindow key={Math.random()} src={calgaryCam} startTime={5.39} />
+            },
+            {
+                name: "Trailer Cam",
+                content: <VideoWindow key={Math.random()} src={trailerCam} startTime={5.41} />,
+            },
+            {
+                name: "Reactions Cam",
+                content: <VideoWindow key={Math.random()} src={teamReactions} startTime={6} />
+            },
+            {
+                name: "Baymax Cam",
+                content: <VideoWindow key={Math.random()} src={baymaxCam} startTime={8.5} />
+            },
+            {
+                name: "Altitude MSL (ft)",
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedflight.json"} labels="Time (s)" data={["Featherweight Altitude (ft)", "Telemega Altitude (ft)"]} startTime={-9.64} />
+            },
+            {
+                name: "Speed (ft/s)",
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedflight.json"} labels="Time (s)" data={["Telemega Speed (ft/s)", "Featherweight Speed (ft/s)"]} startTime={-9.64} />
+            },
+            {
+                name: "Acceleration (ft/s^2)",
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedflight.json"} labels="Time (s)" data={["Telemega Acceleration (ft/s^2)", "Featherweight Acceleration (ft/s^2)"]} startTime={-9.64} />
+            },
+            {
+                name: "Temperature (F)",
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedflight.json"} labels="Time (s)" data={["Telemega Temperature (F)"]} startTime={-9.64} />
+            },
+            {
+                name: "Mach",
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedflight.json"} labels="Time (s)" data={["Telemega Mach"]} startTime={-9.64} />
+            },
+            {
+                name: "Description",
+                content: <FlightDescription />
             },
         ]
     },
