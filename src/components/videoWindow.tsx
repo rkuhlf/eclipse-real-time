@@ -66,6 +66,7 @@ export default class VideoWindow extends Component<VideoWindowProps> {
       })
     });
     this.videoRef.current?.addEventListener("canplay", () => {
+      // TODO: Eventually this should set the video to the correct time and make sure that it starts playing if the user clicked  play before it finished loading.
       this.setState({
         isLoading: false
       })
@@ -180,12 +181,11 @@ export default class VideoWindow extends Component<VideoWindowProps> {
         }
         <video className={"video" + (this.state.isLoading ? " loading" : "")} src={this.props.src} ref={this.videoRef} />
         <ContextListener isPlayingUpdated={(newState) => {
-            if (newState.isPlaying) {
-              console.log(this.videoRef.current?.duration)
-              // Only make the video play if the current time is less than the duration.
-              if (this.getTimeRelativeToVideo(newState.elapsedTime) < (this.videoRef.current?.duration || 0)) {
-                this.videoRef.current?.play();
-              }
+            if (newState.isPlaying) {              
+              this.videoRef.current?.play();
+              
+              // Make sure we're starting at the right time.
+              this.setTime(newState.elapsedTime);
             } else {
                 this.videoRef.current?.pause();
             }
