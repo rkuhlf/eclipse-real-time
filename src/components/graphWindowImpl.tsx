@@ -76,13 +76,13 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
   setPlaybackPosition(event: MouseEvent) {
     if (this.isDraggingRef.current && this.chartRef.current && this.chartObject && event.target) {
-      const rect = (event.target as HTMLElement).getBoundingClientRect();
+      const rect = (this.chartRef.current as HTMLElement).getBoundingClientRect();
       const xPos = event.clientX - rect.left;
 
-      // Translate the pixel position to a chart label
-      const newValue = this.chartObject.scales.x.getValueForPixel(xPos) as number;
+      // Translate the pixel position to a chart label.
+      // We have to subtract the startTime because setTime and setCurrentWatchTime will add it.
+      const newValue = this.chartObject.scales.x.getValueForPixel(xPos) as number - this.props.startTime;
       
-      console.log("Setting false here");
       this.playbackContext.setIsPlaying(false);
       this.setTime(newValue);
       this.playbackContext.setCurrentWatchtime(newValue);
@@ -146,7 +146,6 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
     const verticalLinePlugin = {
       afterDatasetsDraw: (chart: Chart) => {
-        console.log("Chart elapsed time", (chart.options as any).chartElapsedTime)
         const xValue = (chart.options as any).chartElapsedTime;
         const scale = chart.scales.x;
         const context = chart.ctx;

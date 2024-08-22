@@ -1,6 +1,5 @@
 Must have:
 - For now it should say that it only works on desktop.
-- The graph shouldn't be offset when you click.
 
 Should have:
 - Add the flight.
