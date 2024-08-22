@@ -13,7 +13,7 @@ export const HotfireTwoDescription = () => (
         Specific Impulse |
         C*               |
         C* Efficiency    | */}
-        Hotfire 2 was the first successful test conducted by the team in charge of the Spaceport 2024 mission. Following Hotfire 1, which failed to fully ignite, resulting in a cold dump of the nitrous, it was proof that Titan could work and would be ready for Spaceport. It seeked to fully ignite, double the injector flow rate of Hotfire 0, and to have an improved startup transient.
+        Hotfire 2 was the first successful test conducted by the team in charge of the Spaceport 2024 mission. Following Hotfire 1, which failed to fully ignite, resulting in a cold dump of the nitrous, it was proof that Titan could work and would be ready for Spaceport. It seeked to fully ignite, double the injector flow rate of Hotfire 1, and to have an improved startup transient.
 
         <div>
             The feedline pressure started a little low - 650 psi - so the pressures measured will naturally be a little lower. The first smoke shows at <TimeStampLink time={3.34}>3.34 seconds into the data</TimeStampLink>, followed by a ton of dark smoke until  <TimeStampLink time={5.37}>2 seconds after</TimeStampLink> when the full burn begins. It still takes until <TimeStampLink time={5.85}>0.5 seconds later</TimeStampLink> for the burn to stabilize, with the tubes flung away slightly before that.

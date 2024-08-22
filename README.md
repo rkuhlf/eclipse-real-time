@@ -14,7 +14,7 @@ Nice to have:
 - Add the luna hotfires.
     - Add different sections for different vehicles.
 - Change the thrust for hotfire three to the one that's better. https://docs.google.com/spreadsheets/d/1YPNvGyRxLNO_Y38eYAh70m6hxMvxNFnK/edit#gid=1427090460
-- Hotfire 0 has a pressure curve that goes negative. That should probably be adjusted in a separate graph.
+- Hotfire 1 has a pressure curve that goes negative. That should probably be adjusted in a separate graph.
 - See if there is a properly zeroed thrust curve for hotfire 2.
 - Do an analysis for combustion instability.
     - In particular during the second half of hotfire 2.
@@ -29,7 +29,7 @@ Nice to have:
 Feedback:
 - Ella and Owen both would have benefited from a tutorial
 - Ella wants a note about the flame diverter that went flying in hotfire 3
-- Hotfire 0 the trailer view should start centered on the flame.
+- Hotfire 1 the trailer view should start centered on the flame.
 - Weird bug where the dropdown doesn't show up instantly (Safari) after switching hotfires.
 - The red line for the graphsis really far offset from the cursor (especially noticeable on hotfire 3).
 - Add a hotfire 1 with at least an explanation.

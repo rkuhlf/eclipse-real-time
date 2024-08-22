@@ -13,14 +13,14 @@ export type windowId = "window1" | "window2" | "window3" | "window4";
 
 
 export const currentHotfireContext = createContext<CurrentHotfireContextType>({
-    currentHotfireId: "Hotfire 0",
+    currentHotfireId: "Hotfire 1",
     setCurrentHotfire: () => { },
     currentWindows: {},
     updateCurrentWindows: () => { },
     });
 
 export const CurrentHotfireProvider = ({ children }: { children: ComponentChildren }) => {
-    const initialHotfire = 'Hotfire 0';
+    const initialHotfire = 'Hotfire 1';
     const [currentHotfireId, setCurrentHotfireId] = useState<hotfireId>(initialHotfire);
     const initialWindow = hotfireWindows[initialHotfire];
     const [currentWindows, setCurrentWindows] = useState<Partial<Record<windowId, WindowInfo>>>({

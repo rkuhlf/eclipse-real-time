@@ -6,8 +6,8 @@ import { HotfireTwoDescription } from "./components/descriptions/hotfireTwoDescr
 import { HotfireThreeDescription } from "./components/descriptions/hotfireThreeDescription"
 import VideoWindow from "./components/videoWindow"
 
-import hotfire0trailer from "./assets/hotfire0trailer.mp4";
-import hotfire0ground from "./assets/hotfire0ground.mp4";
+import hotfire1trailer from "./assets/hotfire1trailer.mp4";
+import hotfire1ground from "./assets/hotfire1ground.mp4";
 import hotfire2trailer from "./assets/hotfire2trailer.mp4";
 import hotfire2ground from "./assets/hotfire2ground.mp4";
 import hotfire3trailer from "./assets/hotfire3trailer.mp4";
@@ -36,22 +36,22 @@ export type HotfireInfo = {
 
 // The first four of each of these will be taken as the default windows.
 export const hotfireWindows: Record<string, HotfireInfo> = {
-    "Hotfire 0": {
+    "Hotfire 1": {
         duration: 37,
         windows: [
             {
                 name: "Ground Video",
                 // Synced
-                content: <VideoWindow key={Math.random()} src={hotfire0ground} startTime={0} scale={2} />,
+                content: <VideoWindow key={Math.random()} src={hotfire1ground} startTime={0} scale={2} />,
             },
             {
                 name: "Trailer Video",
                 // Synced
-                content: <VideoWindow key={Math.random()} src={hotfire0trailer} startTime={0} offsetY={-180} scale={0.75} />
+                content: <VideoWindow key={Math.random()} src={hotfire1trailer} startTime={0} offsetY={-180} scale={0.75} />
             },
             {
                 name: "Pressure",
-                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire0.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={-0.55} />
+                content: <GraphWindow key={Math.random()} dataPath={"/assets/parsedhotfire1.json"} labels="Time (s)" data={["Injector (psi)", "Feedline (psi)", "Chamber (psi)"]} startTime={-0.55} />
             },
             {
                 name: "Description",

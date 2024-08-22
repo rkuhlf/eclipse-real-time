@@ -4,10 +4,10 @@ import json
 everyn = 2
 
 if __name__ == "__main__":
-    df = pd.read_csv("./dataparsing/hotfire0data.csv")
+    df = pd.read_csv("./dataparsing/hotfire1data.csv")
     df = df.reset_index(drop=True)
 
-    outfile = './dataparsing/parsedhotfire0.json'
+    outfile = './dataparsing/parsedhotfire1.json'
     df.to_json(outfile, orient='split')
     # Extract the data and columns from JSON
     with open(outfile, 'r') as f:
