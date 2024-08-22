@@ -38,11 +38,15 @@ export default class VideoWindow extends Component<VideoWindowProps> {
     this.translateY = 0;
   }
 
+  getTimeRelativeToVideo(playbackTime: number) {
+    return this.props.startTime + playbackTime;
+  }
+
   setTime(newTime: number) {
     const video = this.videoRef.current;
     if (!video) return;
     
-    video.currentTime = this.props.startTime + newTime;
+    video.currentTime = this.getTimeRelativeToVideo(newTime);
   }
 
   componentDidMount() {
@@ -177,7 +181,11 @@ export default class VideoWindow extends Component<VideoWindowProps> {
         <video className={"video" + (this.state.isLoading ? " loading" : "")} src={this.props.src} ref={this.videoRef} />
         <ContextListener isPlayingUpdated={(newState) => {
             if (newState.isPlaying) {
+              console.log(this.videoRef.current?.duration)
+              // Only make the video play if the current time is less than the duration.
+              if (this.getTimeRelativeToVideo(newState.elapsedTime) < (this.videoRef.current?.duration || 0)) {
                 this.videoRef.current?.play();
+              }
             } else {
                 this.videoRef.current?.pause();
             }

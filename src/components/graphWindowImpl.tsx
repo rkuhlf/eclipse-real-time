@@ -50,10 +50,13 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
   setTime(newTime: number) {
     this.elapsedTime = this.props.startTime + newTime;
     const options = this.chartObject?.options as any;
+    console.log(this.chartObject)
 
+    console.log("CHecking")
     if (!options) return;
+    console.log("Saw options");
 
-    options.test = this.elapsedTime;
+    options.chartElapsedTime = this.elapsedTime;
     this.renderChart();
   }
 
@@ -92,7 +95,6 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
     this.isDraggingRef.current = true;
     if (this.isDraggingRef.current && this.chartRef.current) {
       this.wasPlayingRef.current = this.playbackContext.playbackState.isPlaying;
-      console.log("Setting", this.wasPlayingRef.current);
       this.playbackContext.setIsPlaying(false);
       this.setPlaybackPosition(event);
     }
@@ -112,7 +114,6 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
   handleMouseUp() {
       if (this.isDraggingRef.current && this.chartRef.current) {
-        console.log(this.wasPlayingRef.current);
         this.playbackContext.setIsPlaying(this.wasPlayingRef.current || false);
         this.isDraggingRef.current = false;
       }
@@ -145,7 +146,8 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
 
     const verticalLinePlugin = {
       afterDatasetsDraw: (chart: Chart) => {
-        const xValue = (chart.options as any).test;
+        console.log("Chart elapsed time", (chart.options as any).chartElapsedTime)
+        const xValue = (chart.options as any).chartElapsedTime;
         const scale = chart.scales.x;
         const context = chart.ctx;
         const chartArea = chart.chartArea;
@@ -221,6 +223,8 @@ export default class GraphWindowImpl extends Component<GraphWindowImplProps> {
               },
             }
           },
+          // @ts-ignore because this isn't a known property.
+          chartElapsedTime: this.elapsedTime,
           maintainAspectRatio: false
         },
         plugins: [verticalLinePlugin],

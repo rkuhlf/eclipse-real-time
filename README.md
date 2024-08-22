@@ -1,8 +1,7 @@
 Must have:
 - For now it should say that it only works on desktop.
-- Bug where after first loading the video doesn't start up synced.
-- Bug where hitting the play button after the playback has finished causes it to restart.
-- When the graph gets started, it should add the playback line immediately (right now it doesn't).
+- Bug where after first loading the video doesn't start up synced. IMPORTANT.
+- The graph shouldn't be offset when you click.
 
 Should have:
 - Add the flight.
@@ -10,6 +9,7 @@ Should have:
     - Subtract out the predicted drag from the rocket, and subtract out the predicted thrust from the rocket to get some predicted forces.
 - Finish the tables
 - Add ability to specify defaults, that way I can list everything in a sensible order in the dropdown.
+- Bug where if you go back in time after a video has paused from it being too far past the duration it won't start playing again.
 
 Nice to have:
 - Preserve the state of the different hotfires.
