@@ -6,7 +6,21 @@ import { hotfireWindows } from './data';
 import PlaybackControls from './components/playbackControls';
 import Select from './components/select';
 
-export const App = () => {
+// Function to detect if the user is on a mobile device
+const isMobileDevice = () => {
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+export const MobileApp = () => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "5%", textAlign: 'center', alignItems: "center", justifyContent: "center", width: "100vw", height: "100vh", padding: "10%" }}>
+      <h1>This app only works on desktop</h1>
+      <p>Please switch to a desktop device to access the app.</p>
+    </div>
+  )
+}
+
+export const DesktopApp = () => {
   const { currentHotfireId, setCurrentHotfire } = useContext(currentHotfireContext);
 
   const handleChange = useCallback((newValue: string) => {
@@ -31,4 +45,11 @@ export const App = () => {
       <PlaybackControls />
     </>
   );
+};
+
+
+export const App = () => {
+  return (isMobileDevice()) ?
+    <MobileApp /> :
+    <DesktopApp />
 };
